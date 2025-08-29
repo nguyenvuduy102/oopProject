@@ -15,6 +15,9 @@ MenuItem::MenuItem(const std::string &text, const sf::Font &font, unsigned int s
 
     // Gotta center the background and text
     m_background.setPosition(pos);
+
+    m_background.setOutlineThickness(2.f);
+    m_background.setOutlineColor(sf::Color::White);
     sf::FloatRect bounds = m_text.getLocalBounds(); // Grab text’s bounding box to figure out how to center it
     m_text.setOrigin({bounds.position.x + bounds.size.x / 2.f,
                       bounds.position.y + bounds.size.y / 2.f}); // Set text origin to its center
@@ -24,26 +27,24 @@ MenuItem::MenuItem(const std::string &text, const sf::Font &font, unsigned int s
 // Change how menu item look when selected or not
 void MenuItem::setSelected(bool selected)
 {
-    m_isSelected = selected; // Store if this item is selected or not in the member variable
+    m_isSelected = selected;
+    m_targetScale = selected ? 1.05f : 1.0f;
+
     if (!selected)
     {
-        m_background.setScale({1.f, 1.f});                  // Set scale back to normal, no zoom or nothing
-        m_background.setFillColor(sf::Color(0, 0, 0, 150)); // Go back to default background
+        m_background.setFillColor(sf::Color(0, 0, 0, 150));
+    }
+    else
+    {
+        m_background.setFillColor(sf::Color(255, 255, 255, 180));
     }
 }
 
 // Update the menu item’s animation
 void MenuItem::update(float dt)
 {
-    if (m_isSelected) // Only animate if this item is the one selected
-    {
-        m_animationTime += dt * 3.f;                                   // Bump up animation time
-        float scale = 1.f + 0.05f * std::sin(m_animationTime * 3.14f); // Calculate a pulsing effect
-        m_background.setScale({scale, scale});                         // Apply that pulsing scale to background
-
-        // Change background to a white color
-        m_background.setFillColor(sf::Color(255, 255, 255, 180));
-    }
+    m_currentScale += (m_targetScale - m_currentScale) * dt * m_lerpSpeed;
+    m_background.setScale({m_currentScale, m_currentScale});
 }
 
 // Draw the menu item onto the window

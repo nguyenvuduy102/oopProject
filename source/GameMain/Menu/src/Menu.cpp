@@ -66,7 +66,7 @@ Menu::Menu(sf::RenderWindow &window)
     }
 
     // Initialize menu items (Play, Settings, Exit)
-    std::vector<std::string> labels = {"Play", "Game", "Exit"};
+    std::vector<std::string> labels = {"Play", "Game", "Credit", "Help", "Exit"};
     for (size_t i = 0; i < labels.size(); i++)
     {
         MenuItem item(labels[i], m_font, 20, {400.f, 300.f + i * 60.f});
@@ -157,6 +157,14 @@ int Menu::run()
             }
             else if (actionIndex == 2)
             {
+                runCredits();
+            }
+            else if (actionIndex == 3)
+            {
+                runHelp();
+            }
+            else if (actionIndex == 4)
+            {
                 return 2; // Return code for "Exit"
             }
 
@@ -238,6 +246,121 @@ int Menu::runSettings()
         m_window.display();
     }
     return -1; // Default return for settings menu
+}
+
+int Menu::runCredits()
+{
+    bool running = true;
+
+    while (m_window.isOpen() && running)
+    {
+        float dt = m_clock.restart().asSeconds();
+
+        while (auto event = m_window.pollEvent())
+        {
+            if (event->is<sf::Event::Closed>())
+            {
+                m_window.close();
+                return -1;
+            }
+            if (auto key = event->getIf<sf::Event::KeyPressed>())
+            {
+                if (key->code == sf::Keyboard::Key::Escape ||
+                    key->code == sf::Keyboard::Key::Enter)
+                {
+                    running = false; // thoát về menu
+                }
+            }
+        }
+
+        m_background.update(dt);
+        m_window.draw(m_titleSprite);
+        sf::RectangleShape overlay(sf::Vector2f(m_window.getSize()));
+        overlay.setFillColor(sf::Color(0, 0, 0, 180));
+        m_window.draw(overlay);
+
+        // Hiển thị dòng chữ credits
+        sf::Text title(m_font, "CREDITS", 32);
+        title.setFillColor(sf::Color::Yellow);
+        title.setPosition({300.f, 200.f});
+
+        sf::Text text(m_font,
+                      "Game Hub Project\n\n"
+                      "Developer: Your Name\n"
+                      "Team: Awesome Team\n"
+                      "Special Thanks: Teacher, Friends, ...\n\n"
+                      "Press ESC to return",
+                      20);
+
+        text.setFillColor(sf::Color::White);
+        text.setPosition({250.f, 260.f});
+
+        m_window.draw(title);
+        m_window.draw(text);
+
+        m_window.display();
+    }
+
+    return 0;
+}
+
+int Menu::runHelp()
+{
+    bool running = true;
+
+    while (m_window.isOpen() && running)
+    {
+        float dt = m_clock.restart().asSeconds();
+
+        while (auto event = m_window.pollEvent())
+        {
+            if (event->is<sf::Event::Closed>())
+            {
+                m_window.close();
+                return -1;
+            }
+            if (auto key = event->getIf<sf::Event::KeyPressed>())
+            {
+                if (key->code == sf::Keyboard::Key::Escape ||
+                    key->code == sf::Keyboard::Key::Enter)
+                {
+                    running = false; // thoát về menu
+                }
+            }
+        }
+
+        m_background.update(dt);
+        m_window.draw(m_titleSprite);
+        sf::RectangleShape overlay(sf::Vector2f(m_window.getSize()));
+        overlay.setFillColor(sf::Color(0, 0, 0, 180));
+        m_window.draw(overlay);
+
+        // Hiển thị dòng chữ hướng dẫn
+        sf::Text title(m_font, "HOW TO PLAY", 32);
+        title.setFillColor(sf::Color::Cyan);
+        title.setPosition({280.f, 200.f});
+
+        sf::Text text(m_font,
+                      "Controls:\n"
+                      "- UP / DOWN: Move in menu\n"
+                      "- ENTER: Select option\n\n"
+                      "In Games:\n"
+                      "Tetris: Arrow keys to move, UP to rotate\n"
+                      "Snake: Arrow keys to control\n"
+                      "Pong: W/S for left paddle, UP/DOWN for right\n\n"
+                      "Press ESC to return",
+                      20);
+
+        text.setFillColor(sf::Color::White);
+        text.setPosition({200.f, 260.f});
+
+        m_window.draw(title);
+        m_window.draw(text);
+
+        m_window.display();
+    }
+
+    return 0;
 }
 
 // Move selection up in the menu
