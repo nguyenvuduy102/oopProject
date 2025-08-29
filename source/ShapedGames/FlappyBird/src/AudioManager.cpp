@@ -7,11 +7,11 @@ namespace Flappy
 
     void AudioManager::load()
     {
-        if (!m_flapBuffer.loadFromFile("assets/music/flap.wav"))
+        if (!m_flapBuffer.loadFromFile("../source/assets/sounds/flap.wav"))
             throw std::runtime_error("failed to load flap.wav");
-        if (!m_scoreBuffer.loadFromFile("assets/music/FlappyScore.wav"))
+        if (!m_scoreBuffer.loadFromFile("../source/assets/sounds/FlappyScore.wav"))
             throw std::runtime_error("failed to load score.wav");
-        if (!m_hitBuffer.loadFromFile("assets/music/crash.wav"))
+        if (!m_hitBuffer.loadFromFile("../source/assets/sounds/crash.wav"))
             throw std::runtime_error("failed to load crash.wav");
 
         m_flapSound.setBuffer(m_flapBuffer);

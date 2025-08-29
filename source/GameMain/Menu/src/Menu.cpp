@@ -8,13 +8,13 @@ Menu::Menu(sf::RenderWindow &window)
     : m_window(window), m_selectedIndex(0), m_background(window, 150), m_titleSprite(m_titleTexture), m_clickSound(m_clickBuffer)
 {
     // Load font for menu text
-    if (!m_font.openFromFile("../assets/fonts/Montserrat-Regular.ttf"))
+    if (!m_font.openFromFile("../source/assets/fonts/Montserrat-Regular.ttf"))
     {
         std::cerr << "Error: Cannot load font!\n";
     }
 
     // Load background music
-    if (!m_music.openFromFile("../assets/sounds/Presstart.wav"))
+    if (!m_music.openFromFile("../source/assets/sounds/Presstart.wav"))
     {
         std::cerr << "Error: Cannot load music!\n";
     }
@@ -27,7 +27,7 @@ Menu::Menu(sf::RenderWindow &window)
     }
 
     // Load click sound effect
-    if (!m_clickBuffer.loadFromFile("../assets/sounds/MinecraftSounds.wav"))
+    if (!m_clickBuffer.loadFromFile("../source/assets/sounds/MinecraftSounds.wav"))
     {
         std::cerr << "Error: Cannot load click sound!\n";
     }
@@ -40,7 +40,7 @@ Menu::Menu(sf::RenderWindow &window)
     }
 
     // Load title image
-    if (!m_titleTexture.loadFromFile("../assets/images/GameIcon.png"))
+    if (!m_titleTexture.loadFromFile("../source/assets/images/GameIcon.png"))
     {
         std::cerr << "Error: Cannot load title image!\n";
     }
@@ -55,7 +55,7 @@ Menu::Menu(sf::RenderWindow &window)
     }
 
     // Initialize menu items (Play, Settings, Exit)
-    std::vector<std::string> labels = {"Play", "Settings", "Exit"};
+    std::vector<std::string> labels = {"Play", "Game", "Exit"};
     for (size_t i = 0; i < labels.size(); i++)
     {
         MenuItem item(labels[i], m_font, 20, {400.f, 300.f + i * 60.f});

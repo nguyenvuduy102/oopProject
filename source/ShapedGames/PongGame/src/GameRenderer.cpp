@@ -6,7 +6,7 @@ namespace Pong
 
     void GameRenderer::load()
     {
-        if (!m_font.openFromFile("assets/fonts/monogram.ttf"))
+        if (!m_font.openFromFile("../source/assets/fonts/monogram.ttf"))
             throw std::runtime_error("Failed to load font: assets/fonts/monogram.ttf");
         m_scoreText.setFillColor(sf::Color::White);
     }

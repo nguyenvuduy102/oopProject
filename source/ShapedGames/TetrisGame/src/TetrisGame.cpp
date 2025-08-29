@@ -7,11 +7,11 @@ namespace Tetris
 
     void TetrisGame::init(sf::RenderWindow &window)
     {
-        if (!font.openFromFile("assets/fonts/stawix-sansbeamhead-semibold.otf"))
+        if (!font.openFromFile("../source/assets/fonts/stawix-sansbeamhead-semibold.otf"))
         {
             throw std::runtime_error("Không load được font!");
         }
-        renderer = new GameRenderer(font, "assets/images/TetrisSprite.png");
+        renderer = new GameRenderer(font, "../source/assets/images/TetrisSprite.png");
         controller = new GameController(core, audio, *renderer);
         audio.PlayMusic();
     }
