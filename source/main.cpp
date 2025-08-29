@@ -15,12 +15,16 @@ int main()
 
         if (choice == 0) // Play
         {
+            //Events handling
             auto game = GameFactory::create(
                 static_cast<GameFactory::GameId>(GameManager::instance().getSelected()));
             if (game)
             {
+                // Init Game Component
                 game->init(window);
+                // Run Game 
                 game->run(window);
+                // Clean up thing in game
                 game->cleanup();
             }
         }
