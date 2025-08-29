@@ -307,11 +307,20 @@ int Menu::runCredits()
 int Menu::runHelp()
 {
     bool running = true;
+    int page = 0; // 0 = Tetris, 1 = Snake, 2 = Pong, 3 = Flappy
+
+    // Nội dung hướng dẫn cho từng game
+    std::vector<std::string> helpTexts = {
+        "TETRIS:\n- LEFT/RIGHT: Move block\n- UP: Rotate block\n- DOWN: Drop faster\n- ESC: Quit game",
+        "SNAKE:\n- Arrow keys: Control snake\n- Eat food to grow\n- Don't hit walls or yourself",
+        "PONG:\n- Left player: W/S to move\n- Right player: UP/DOWN to move\n- First to score wins!",
+        "FLAPPY BIRD:\n- SPACE or UP: Flap\n- Avoid pipes\n- Try to survive as long as possible"};
 
     while (m_window.isOpen() && running)
     {
         float dt = m_clock.restart().asSeconds();
 
+        // --- Xử lý sự kiện ---
         while (auto event = m_window.pollEvent())
         {
             if (event->is<sf::Event::Closed>())
@@ -321,41 +330,89 @@ int Menu::runHelp()
             }
             if (auto key = event->getIf<sf::Event::KeyPressed>())
             {
-                if (key->code == sf::Keyboard::Key::Escape ||
-                    key->code == sf::Keyboard::Key::Enter)
+                if (key->code == sf::Keyboard::Key::Escape)
                 {
-                    running = false; // thoát về menu
+                    running = false; // Thoát help
+                }
+                else if (key->code == sf::Keyboard::Key::Right || key->code == sf::Keyboard::Key::D)
+                {
+                    if (page < (int)helpTexts.size() - 1)
+                        page++;
+                }
+                else if (key->code == sf::Keyboard::Key::Left || key->code == sf::Keyboard::Key::A)
+                {
+                    if (page > 0)
+                        page--;
                 }
             }
         }
 
+        // --- Vẽ nền ---
         m_background.update(dt);
         m_window.draw(m_titleSprite);
+
+        // Thêm overlay tối mờ
         sf::RectangleShape overlay(sf::Vector2f(m_window.getSize()));
         overlay.setFillColor(sf::Color(0, 0, 0, 180));
         m_window.draw(overlay);
 
-        // Hiển thị dòng chữ hướng dẫn
+        // --- Tiêu đề cố định ---
         sf::Text title(m_font, "HOW TO PLAY", 32);
         title.setFillColor(sf::Color::Cyan);
-        title.setPosition({280.f, 200.f});
-
-        sf::Text text(m_font,
-                      "Controls:\n"
-                      "- UP / DOWN: Move in menu\n"
-                      "- ENTER: Select option\n\n"
-                      "In Games:\n"
-                      "Tetris: Arrow keys to move, UP to rotate\n"
-                      "Snake: Arrow keys to control\n"
-                      "Pong: W/S for left paddle, UP/DOWN for right\n\n"
-                      "Press ESC to return",
-                      20);
-
-        text.setFillColor(sf::Color::White);
-        text.setPosition({200.f, 260.f});
-
+        sf::FloatRect tb = title.getLocalBounds();
+        title.setOrigin({tb.size.x / 2.f, tb.size.y / 2.f});
+        title.setPosition({m_window.getSize().x / 2.f, 80.f});
         m_window.draw(title);
-        m_window.draw(text);
+
+        // --- Nội dung của trang hiện tại ---
+        sf::Text content(m_font, helpTexts[page], 22);
+        content.setFillColor(sf::Color::White);
+        content.setPosition({180.f, 160.f});
+        m_window.draw(content);
+
+        // --- Nút Prev (mũi tên trái) ---
+        if (page > 0)
+        {
+            sf::ConvexShape prevArrow;
+            prevArrow.setPointCount(3);
+            prevArrow.setPoint(0, {0.f, 20.f});  // đáy trên
+            prevArrow.setPoint(1, {0.f, -20.f}); // đáy dưới
+            prevArrow.setPoint(2, {-30.f, 0.f}); // mũi tên nhọn bên trái
+            prevArrow.setFillColor(sf::Color::White);
+            prevArrow.setPosition({250.f, 520.f}); // vị trí trung tâm
+
+            m_window.draw(prevArrow);
+
+            // chữ "Prev" phía trên nút
+            sf::Text prevLabel(m_font, "Prev", 18);
+            prevLabel.setFillColor(sf::Color::White);
+            sf::FloatRect pb = prevLabel.getLocalBounds();
+            prevLabel.setOrigin({pb.size.x / 2.f + 18.f, pb.size.y / 2.f});
+            prevLabel.setPosition({prevArrow.getPosition().x, prevArrow.getPosition().y - 40.f});
+            m_window.draw(prevLabel);
+        }
+
+        // --- Nút Next (mũi tên phải) ---
+        if (page < (int)helpTexts.size() - 1)
+        {
+            sf::ConvexShape nextArrow;
+            nextArrow.setPointCount(3);
+            nextArrow.setPoint(0, {0.f, -20.f}); // đáy trên
+            nextArrow.setPoint(1, {0.f, 20.f});  // đáy dưới
+            nextArrow.setPoint(2, {30.f, 0.f});  // mũi tên nhọn bên phải
+            nextArrow.setFillColor(sf::Color::White);
+            nextArrow.setPosition({550.f, 520.f});
+
+            m_window.draw(nextArrow);
+
+            // chữ "Next" phía trên nút
+            sf::Text nextLabel(m_font, "Next", 18);
+            nextLabel.setFillColor(sf::Color::White);
+            sf::FloatRect nb = nextLabel.getLocalBounds();
+            nextLabel.setOrigin({nb.size.x / 2.f - 18.f, nb.size.y / 2.f});
+            nextLabel.setPosition({nextArrow.getPosition().x, nextArrow.getPosition().y - 40.f});
+            m_window.draw(nextLabel);
+        }
 
         m_window.display();
     }
