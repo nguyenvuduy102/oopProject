@@ -6,9 +6,9 @@ namespace Pong
 
     void AudioManager::load()
     {
-        if (!m_bounceBuffer.loadFromFile("assets/music/bounce.wav"))
+        if (!m_bounceBuffer.loadFromFile("../source/assets/sounds/bounce.wav"))
             throw std::runtime_error("Failed to load bounce.wav");
-        if (!m_scoreBuffer.loadFromFile("assets/music/score.wav"))
+        if (!m_scoreBuffer.loadFromFile("../source/assets/sounds/score.wav"))
             throw std::runtime_error("Failed to load score.wav");
 
         m_bounceSound.setBuffer(m_bounceBuffer);

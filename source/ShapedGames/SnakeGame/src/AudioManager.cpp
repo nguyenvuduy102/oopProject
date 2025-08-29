@@ -23,15 +23,15 @@ namespace Snake
 
     AudioManager::AudioManager()
     {
-        if (!LoadSound(m_eatBuffer, TryPaths("assets/music/eat.wav")))
+        if (!LoadSound(m_eatBuffer, TryPaths("../source/assets/sounds/eat.wav")))
             throw std::runtime_error("Failed to load eat.wav");
-        if (!LoadSound(m_gameOverBuffer, TryPaths("assets/music/gameover.wav")))
+        if (!LoadSound(m_gameOverBuffer, TryPaths("../source/assets/sounds/gameover.wav")))
             throw std::runtime_error("Failed to load gameover.wav");
 
         m_eatSound = std::make_unique<sf::Sound>(m_eatBuffer);
         m_gameOverSound = std::make_unique<sf::Sound>(m_gameOverBuffer);
 
-        if (!m_music.openFromFile(TryPaths("assets/music/background.ogg")))
+        if (!m_music.openFromFile(TryPaths("../source/assets/sounds/background.ogg")))
             throw std::runtime_error("Failed to load background.ogg");
         m_music.setLooping(true);
     }

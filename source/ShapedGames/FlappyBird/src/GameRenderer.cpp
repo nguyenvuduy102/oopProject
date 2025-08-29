@@ -20,7 +20,7 @@ namespace Flappy
 
     void GameRenderer::load()
     {
-        if (!m_font.openFromFile("assets/fonts/flappy.ttf"))
+        if (!m_font.openFromFile("../source/assets/fonts/flappy.ttf"))
             throw std::runtime_error("failed to load flappy.ttf");
 
         for (int i = 0; i < 6; ++i)

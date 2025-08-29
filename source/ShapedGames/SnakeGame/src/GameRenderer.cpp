@@ -5,7 +5,7 @@ namespace Snake
 {
     GameRenderer::GameRenderer(sf::RenderWindow &window) : m_window(window)
     {
-        if (!m_font.openFromFile("assets/fonts/JetBrainsMono-Medium.ttf"))
+        if (!m_font.openFromFile("../source/assets/fonts/JetBrainsMono-Medium.ttf"))
         {
             std::cerr << "Warning: cannot load font\n";
         }
