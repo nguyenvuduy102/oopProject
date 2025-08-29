@@ -5,7 +5,7 @@
 
 // Constructor for Menu class, initializes menu elements
 Menu::Menu(sf::RenderWindow &window)
-    : m_window(window), m_selectedIndex(0), m_background(window, 150), m_titleSprite(m_titleTexture), m_clickSound(m_clickBuffer)
+    : m_window(window), m_selectedIndex(0), m_background(window, 150), m_titleSprite(m_titleTexture), m_clickSound(m_clickBuffer), m_slideSound(m_slideBuffer)
 {
     // Load font for menu text
     if (!m_font.openFromFile("../source/assets/fonts/Montserrat-Regular.ttf"))
@@ -37,6 +37,17 @@ Menu::Menu(sf::RenderWindow &window)
         m_clickSound.setBuffer(m_clickBuffer);
         m_clickSound.setVolume(100.f);
         m_clickSound.setPitch(2.0f);
+    }
+
+    if (!m_slideBuffer.loadFromFile("../source/assets/sounds/MenuSlideSound.ogg"))
+    {
+        std::cerr << "Error: Cannot load slide sound!\n";
+    }
+    else
+    {
+        m_slideSound.setBuffer(m_slideBuffer);
+        m_slideSound.setVolume(100.f);
+        m_slideSound.setPitch(2.0f);
     }
 
     // Load title image
@@ -189,9 +200,17 @@ int Menu::runSettings()
             {
                 // Navigate settings menu
                 if (keyEvent->scancode == sf::Keyboard::Scan::Up || keyEvent->scancode == sf::Keyboard::Scan::W)
+                {
                     selected = (selected > 0) ? selected - 1 : (int)gameOptions.size() - 1;
+                    if (m_slideSound.getStatus() != sf::Sound::Status::Playing)
+                        m_slideSound.play();
+                }
                 else if (keyEvent->scancode == sf::Keyboard::Scan::Down || keyEvent->scancode == sf::Keyboard::Scan::S)
+                {
                     selected = (selected < (int)gameOptions.size() - 1) ? selected + 1 : 0;
+                    if (m_slideSound.getStatus() != sf::Sound::Status::Playing)
+                        m_slideSound.play();
+                }
                 else if (keyEvent->scancode == sf::Keyboard::Scan::Enter)
                 {
                     // Play click sound
@@ -228,6 +247,9 @@ void Menu::moveUp()
         m_selectedIndex--;
     else
         m_selectedIndex = m_options.size() - 1;
+
+    if (m_slideSound.getStatus() != sf::Sound::Status::Playing)
+        m_slideSound.play();
 }
 
 // Move selection down in the menu
@@ -237,4 +259,7 @@ void Menu::moveDown()
         m_selectedIndex++;
     else
         m_selectedIndex = 0;
+
+    if (m_slideSound.getStatus() != sf::Sound::Status::Playing)
+        m_slideSound.play();
 }
