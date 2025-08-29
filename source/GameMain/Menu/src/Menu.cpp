@@ -11,7 +11,7 @@ Menu::Menu(sf::RenderWindow &window)
         std::cerr << "Error: Cannot load font!\n";
     }
 
-    if (!m_music.openFromFile("music/Presstart.wav"))
+    if (!m_music.openFromFile("assets/sounds/Presstart.wav"))
     {
         std::cerr << "Error: Cannot load music!\n";
     }
@@ -22,7 +22,7 @@ Menu::Menu(sf::RenderWindow &window)
         m_music.play();
     }
 
-    if (!m_clickBuffer.loadFromFile("assets/music/MinecraftSounds.wav"))
+    if (!m_clickBuffer.loadFromFile("assets/sounds/MinecraftSounds.wav"))
     {
         std::cerr << "Error: Cannot load click sound!\n";
     }
