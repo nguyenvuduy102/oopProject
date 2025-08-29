@@ -1,16 +1,34 @@
 #include <SFML/Graphics.hpp>
+#include "GameMain/Menu/include/Menu.h"
+#include "GameMain/Core/include/GameFactory.h"
+#include "GameMain/Core/include/GameManager.h"
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode({800u, 600u}), "Game Hub - SFML 3.0.0", sf::Style::Titlebar | sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode({800, 600}), "Game Hub - SFML 3.0.0", sf::Style::Titlebar | sf::Style::Close);
     window.setFramerateLimit(60);
 
+    Menu menu(window);
     while (window.isOpen())
     {
-        while (const std::optional event = window.pollEvent())
+        int choice = menu.run();
+
+        if (choice == 0) // Play
         {
-            if (event->is<sf::Event::Closed>())
-                window.close();
+            auto game = GameFactory::create(
+                static_cast<GameFactory::GameId>(GameManager::instance().getSelected()));
+            if (game)
+            {
+                game->init(window);
+                game->run(window);
+                game->cleanup();
+            }
+        }
+        else if (choice == 2) // Exit
+        {
+            window.close();
         }
     }
+
+    return 0;
 }
