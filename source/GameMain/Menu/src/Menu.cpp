@@ -14,7 +14,7 @@ Menu::Menu(sf::RenderWindow &window)
     }
 
     // Load background music
-    if (!m_music.openFromFile("../source/assets/sounds/Presstart.wav"))
+    if (!m_music.openFromFile("../source/assets/sounds/MenuBackGroundSound.ogg"))
     {
         std::cerr << "Error: Cannot load music!\n";
     }
@@ -27,7 +27,7 @@ Menu::Menu(sf::RenderWindow &window)
     }
 
     // Load click sound effect
-    if (!m_clickBuffer.loadFromFile("../source/assets/sounds/MinecraftSounds.wav"))
+    if (!m_clickBuffer.loadFromFile("../source/assets/sounds/MenuClickSound.ogg"))
     {
         std::cerr << "Error: Cannot load click sound!\n";
     }
