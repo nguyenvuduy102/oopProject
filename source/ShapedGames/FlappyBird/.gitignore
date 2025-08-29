@@ -1,9 +1,0 @@
-*.exe
-*.out
-*.o
-*.dll
-*.so
-*.a
-*.txt
-makefile
-*.bat
