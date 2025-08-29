@@ -19,6 +19,8 @@ public:
     int run();
     // Run settings menu for picking game
     int runSettings();
+    int runCredits(); // hiển thị credits
+    int runHelp();    // hiển thị hướng dẫn
 
 private:
     // Move selection up in menu

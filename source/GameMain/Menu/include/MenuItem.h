@@ -18,6 +18,9 @@ private:
     sf::RectangleShape m_background;
 
     bool m_isSelected = false;
+    float m_currentScale = 1.f;
+    float m_targetScale = 1.f;
+    float m_lerpSpeed = 10.f;
     float m_animationTime = 0.f; // để pulse
 };
 
