@@ -1,8 +1,7 @@
 #include "../include/Menu.h"
-#include <cmath>
 
 MenuItem::MenuItem(const std::string &text, const sf::Font &font, unsigned int size, sf::Vector2f pos)
-    : m_text(font, text, size)
+    : m_text(font, text, size) // <-- initialize here
 {
     m_text.setFillColor(sf::Color::White);
 
@@ -33,10 +32,11 @@ void MenuItem::update(float dt)
 {
     if (m_isSelected)
     {
-        m_animationTime += dt * 3.f;
+        m_animationTime += dt * 3.f; // tốc độ pulse
         float scale = 1.f + 0.05f * std::sin(m_animationTime * 3.14f);
         m_background.setScale({scale, scale});
 
+        // đổi màu nền thành trắng đục
         m_background.setFillColor(sf::Color(255, 255, 255, 180));
     }
 }
