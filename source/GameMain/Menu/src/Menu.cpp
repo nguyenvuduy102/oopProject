@@ -1,13 +1,36 @@
 #include "../include/Menu.h"
 #include "../../Core/include/GameManager.h"
+#include "../include/FadeEffect.h"
 #include <iostream>
 
 Menu::Menu(sf::RenderWindow &window)
-    : m_window(window), m_selectedIndex(0), m_titleSprite(m_titleTexture)
+    : m_window(window), m_selectedIndex(0), m_background(window, 150), m_titleSprite(m_titleTexture), m_clickSound(m_clickBuffer)
 {
     if (!m_font.openFromFile("Font/Montserrat-Regular.ttf"))
     {
         std::cerr << "Error: Cannot load font!\n";
+    }
+
+    if (!m_music.openFromFile("music/Presstart.wav"))
+    {
+        std::cerr << "Error: Cannot load music!\n";
+    }
+    else
+    {
+        m_music.setLooping(true);
+        m_music.setVolume(50.f);
+        m_music.play();
+    }
+
+    if (!m_clickBuffer.loadFromFile("music/MinecraftSounds.wav"))
+    {
+        std::cerr << "Error: Cannot load click sound!\n";
+    }
+    else
+    {
+        m_clickSound.setBuffer(m_clickBuffer);
+        m_clickSound.setVolume(100.f);
+        m_clickSound.setPitch(2.0f);
     }
 
     if (!m_titleTexture.loadFromFile("Images/GameIcon.png"))
@@ -16,7 +39,7 @@ Menu::Menu(sf::RenderWindow &window)
     }
     else
     {
-        m_titleSprite = sf::Sprite(m_titleTexture);
+        m_titleSprite = sf::Sprite(m_titleTexture); // tạo sprite từ texture
         sf::Vector2u winSize = m_window.getSize();
         sf::FloatRect bounds = m_titleSprite.getLocalBounds();
         m_titleSprite.setOrigin({bounds.size.x / 2.f, bounds.size.y / 2.f});
@@ -33,6 +56,14 @@ Menu::Menu(sf::RenderWindow &window)
 
 int Menu::run()
 {
+    if (m_music.getStatus() != sf::Music::Status::Playing)
+    {
+        m_music.play();
+    }
+    FadeEffect fade(m_window.getSize()); // overlay đen
+    bool startAction = false;
+    int actionIndex = -1;
+
     while (m_window.isOpen())
     {
         float dt = m_clock.restart().asSeconds();
@@ -46,23 +77,25 @@ int Menu::run()
             }
             if (auto keyEvent = event->getIf<sf::Event::KeyPressed>())
             {
+                if (fade.isFading())
+                    continue; // đang fade thì ignore input
+
                 if (keyEvent->scancode == sf::Keyboard::Scan::Up || keyEvent->scancode == sf::Keyboard::Scan::W)
                     moveUp();
                 else if (keyEvent->scancode == sf::Keyboard::Scan::Down || keyEvent->scancode == sf::Keyboard::Scan::S)
                     moveDown();
                 else if (keyEvent->scancode == sf::Keyboard::Scan::Enter)
                 {
-                    if (m_selectedIndex == 0)
-                        return 0;
-                    if (m_selectedIndex == 1)
-                        return runSettings();
-                    if (m_selectedIndex == 2)
-                        return 2; // Exit
+                    if (m_clickSound.getStatus() != sf::Sound::Status::Playing)
+                        m_clickSound.play();
+                    fade.startFadeIn(0.5f); // bắt đầu fade in
+                    startAction = true;
+                    actionIndex = m_selectedIndex;
                 }
             }
         }
 
-        m_window.clear(sf::Color(20, 20, 40));
+        m_background.update(dt); // vừa update, vừa vẽ snow + gradient
         m_window.draw(m_titleSprite);
 
         for (size_t i = 0; i < m_options.size(); i++)
@@ -72,7 +105,34 @@ int Menu::run()
             m_options[i].draw(m_window);
         }
 
+        fade.update(dt);     // cập nhật overlay
+        fade.draw(m_window); // vẽ fade lên trên
         m_window.display();
+
+        if (startAction && !fade.isFading())
+        {
+            // Chỗ thực hiện action sau fade
+            if (actionIndex == 0)
+            {
+                m_music.stop();
+                return 0; // Play
+            }
+            else if (actionIndex == 1)
+            {
+                int chosen = runSettings();
+                if (chosen >= 0)
+                    GameManager::instance().setSelected(chosen);
+                m_selectedIndex = 0;
+            }
+            else if (actionIndex == 2)
+            {
+                return 2; // Exit
+            }
+
+            // Fade out trở lại menu
+            fade.startFadeOut(1.0f);
+            startAction = false;
+        }
     }
     return 2;
 }
@@ -108,12 +168,16 @@ int Menu::runSettings()
                     selected = (selected < (int)gameOptions.size() - 1) ? selected + 1 : 0;
                 else if (keyEvent->scancode == sf::Keyboard::Scan::Enter)
                 {
+                    if (m_clickSound.getStatus() != sf::Sound::Status::Playing)
+                        m_clickSound.play();
                     if (selected == (int)gameOptions.size() - 1)
-                        return -1;
-                    return selected;
+                        return -1;   // Back
+                    return selected; // trả về index game
                 }
             }
         }
+
+        m_background.update(dt);
         m_window.draw(m_titleSprite);
 
         for (size_t i = 0; i < gameOptions.size(); i++)

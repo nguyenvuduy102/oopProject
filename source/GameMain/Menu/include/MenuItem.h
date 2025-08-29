@@ -18,7 +18,7 @@ private:
     sf::RectangleShape m_background;
 
     bool m_isSelected = false;
-    float m_animationTime = 0.f;
+    float m_animationTime = 0.f; // để pulse
 };
 
 #endif
