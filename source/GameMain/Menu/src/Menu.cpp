@@ -6,7 +6,7 @@
 Menu::Menu(sf::RenderWindow &window)
     : m_window(window), m_selectedIndex(0), m_background(window, 150), m_titleSprite(m_titleTexture), m_clickSound(m_clickBuffer)
 {
-    if (!m_font.openFromFile("Font/Montserrat-Regular.ttf"))
+    if (!m_font.openFromFile("assets/fonts/Montserrat-Regular.ttf"))
     {
         std::cerr << "Error: Cannot load font!\n";
     }
@@ -22,7 +22,7 @@ Menu::Menu(sf::RenderWindow &window)
         m_music.play();
     }
 
-    if (!m_clickBuffer.loadFromFile("music/MinecraftSounds.wav"))
+    if (!m_clickBuffer.loadFromFile("assets/music/MinecraftSounds.wav"))
     {
         std::cerr << "Error: Cannot load click sound!\n";
     }
@@ -33,7 +33,7 @@ Menu::Menu(sf::RenderWindow &window)
         m_clickSound.setPitch(2.0f);
     }
 
-    if (!m_titleTexture.loadFromFile("Images/GameIcon.png"))
+    if (!m_titleTexture.loadFromFile("assets/images/GameIcon.png"))
     {
         std::cerr << "Error: Cannot load title image!\n";
     }

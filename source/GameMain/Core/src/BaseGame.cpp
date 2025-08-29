@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-static const char *FONT_PATH = "Font/monogram.ttf";
+static const char *FONT_PATH = "assets/fonts/monogram.ttf";
 
 BaseGame::BaseGame(const std::string &n, sf::Color bg) : m_name(n), m_bg(bg) {}
 
