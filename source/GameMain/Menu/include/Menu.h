@@ -32,7 +32,9 @@ private:
     int m_selectedIndex;             // Track which item picked
     sf::Music m_music;               // Background music
     sf::SoundBuffer m_clickBuffer;   // Buffer for click sound
-    sf::Sound m_clickSound;          // Click sound effect
+    sf::Sound m_clickSound;
+    sf::SoundBuffer m_slideBuffer;
+    sf::Sound m_slideSound; // Click sound effect
 
     // Keep background as member
     SnowBackground m_background; // Snowy background effect
