@@ -3,27 +3,52 @@
 
 namespace Flappy
 {
-    // AudioManager class, handle sounds for Flappy Bird
+    /**
+     * @class AudioManager
+     * @brief Quản lý âm thanh cho game Flappy Bird.
+     *
+     * Lớp này chịu trách nhiệm tải và phát các hiệu ứng âm thanh:
+     * - Tiếng vỗ cánh khi chim nhảy
+     * - Tiếng ghi điểm khi chim vượt qua ống
+     * - Tiếng va chạm khi chim đâm vào chướng ngại vật
+     */
     class AudioManager
     {
     public:
-        // Constructor, set up audio stuff
+        /**
+         * @brief Constructor.
+         *
+         * Khởi tạo AudioManager và thiết lập âm thanh.
+         */
         AudioManager();
-        // Load sound files
+
+        /**
+         * @brief Nạp các file âm thanh cần thiết.
+         */
         void load();
-        // Play flap sound when bird jump
+
+        /**
+         * @brief Phát âm thanh vỗ cánh khi chim nhảy.
+         */
         void playFlap();
-        // Play score sound when pass pipe
+
+        /**
+         * @brief Phát âm thanh ghi điểm khi chim vượt qua ống.
+         */
         void playScore();
-        // Play hit sound when crash
+
+        /**
+         * @brief Phát âm thanh va chạm khi chim đâm vào vật cản.
+         */
         void playHit();
 
     private:
-        sf::SoundBuffer m_flapBuffer;  // Buffer for flap sound
-        sf::SoundBuffer m_scoreBuffer; // Buffer for score sound
-        sf::SoundBuffer m_hitBuffer;   // Buffer for hit sound
-        sf::Sound m_flapSound;         // Flap sound effect
-        sf::Sound m_scoreSound;        // Score sound effect
-        sf::Sound m_hitSound;          // Hit sound effect
+        sf::SoundBuffer m_flapBuffer;  /**< Bộ nhớ đệm cho âm thanh vỗ cánh */
+        sf::SoundBuffer m_scoreBuffer; /**< Bộ nhớ đệm cho âm thanh ghi điểm */
+        sf::SoundBuffer m_hitBuffer;   /**< Bộ nhớ đệm cho âm thanh va chạm */
+
+        sf::Sound m_flapSound;   /**< Hiệu ứng âm thanh vỗ cánh */
+        sf::Sound m_scoreSound;  /**< Hiệu ứng âm thanh ghi điểm */
+        sf::Sound m_hitSound;    /**< Hiệu ứng âm thanh va chạm */
     };
 }
