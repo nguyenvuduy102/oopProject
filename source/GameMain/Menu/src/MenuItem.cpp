@@ -1,72 +1,56 @@
-/**
- * @file MenuItem.cpp
- * @brief Implements the MenuItem class methods.
- */
-
 #include "../include/Menu.h"
 
-/**
- * @brief Constructs a MenuItem object.
- * @param text Display text for the menu item.
- * @param font Font used for the text.
- * @param size Font size.
- * @param pos Position of the menu item.
- */
+// MenuItem class set up a single menu item like "Play" or "Exit"
+// Takes a text string, font, size , and pos
 MenuItem::MenuItem(const std::string &text, const sf::Font &font, unsigned int size, sf::Vector2f pos)
-    : m_text(font, text, size) // <-- initialize here
+    : m_text(font, text, size) // Inits the SFML Text object with given font, text, and size for display
 {
+    // Make text white so it stand out nice against dark background
     m_text.setFillColor(sf::Color::White);
 
-    // setup background
-    m_background.setSize({200.f, 50.f});
+    // Setup the background rectangle
+    m_background.setSize({200.f, 50.f}); // Give it a fixed size
     m_background.setFillColor(sf::Color(0, 0, 0, 150));
-    m_background.setOrigin(m_background.getSize() / 2.f);
+    m_background.setOrigin(m_background.getSize() / 2.f); // Set origin to rectangle’s center
 
-    // center text
+    // Gotta center the background and text
     m_background.setPosition(pos);
-    sf::FloatRect bounds = m_text.getLocalBounds();
+
+    m_background.setOutlineThickness(2.f);
+    m_background.setOutlineColor(sf::Color::White);
+    sf::FloatRect bounds = m_text.getLocalBounds(); // Grab text’s bounding box to figure out how to center it
     m_text.setOrigin({bounds.position.x + bounds.size.x / 2.f,
-                      bounds.position.y + bounds.size.y / 2.f});
-    m_text.setPosition(m_background.getPosition());
+                      bounds.position.y + bounds.size.y / 2.f}); // Set text origin to its center
+    m_text.setPosition(m_background.getPosition());              // Make text sit right on top of background’s center
 }
 
-/**
- * @brief Sets whether the item is selected.
- * @param selected True if selected, false otherwise.
- */
+// Change how menu item look when selected or not
 void MenuItem::setSelected(bool selected)
 {
     m_isSelected = selected;
+    m_targetScale = selected ? 1.05f : 1.0f;
+
     if (!selected)
     {
-        m_background.setScale({1.f, 1.f});
         m_background.setFillColor(sf::Color(0, 0, 0, 150));
     }
-}
-
-/**
- * @brief Updates the menu item (e.g., animation).
- * @param dt Delta time in seconds.
- */
-void MenuItem::update(float dt)
-{
-    if (m_isSelected)
+    else
     {
-        m_animationTime += dt * 3.f; // tốc độ pulse
-        float scale = 1.f + 0.05f * std::sin(m_animationTime * 3.14f);
-        m_background.setScale({scale, scale});
-
-        // đổi màu nền thành trắng đục
         m_background.setFillColor(sf::Color(255, 255, 255, 180));
     }
 }
 
-/**
- * @brief Draws the menu item to the window.
- * @param window Reference to the SFML render window.
- */
+// Update the menu item’s animation
+void MenuItem::update(float dt)
+{
+    m_currentScale += (m_targetScale - m_currentScale) * dt * m_lerpSpeed;
+    m_background.setScale({m_currentScale, m_currentScale});
+}
+
+// Draw the menu item onto the window
+//  window of SFML
 void MenuItem::draw(sf::RenderWindow &window)
 {
-    window.draw(m_background);
-    window.draw(m_text);
+    window.draw(m_background); // Draw background rectangle
+    window.draw(m_text);       // Draw text on top
 }

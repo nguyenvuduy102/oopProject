@@ -44,11 +44,14 @@ public:
     void draw(sf::RenderWindow &window);
 
 private:
-    sf::Text m_text;                /**< Text displayed for the menu item. */
-    sf::RectangleShape m_background;/**< Background shape for the menu item. */
+    sf::Text m_text;                 /**< Text displayed for the menu item. */
+    sf::RectangleShape m_background; /**< Background shape for the menu item. */
 
-    bool m_isSelected = false;      /**< Whether the item is selected. */
-    float m_animationTime = 0.f;    /**< Animation timer for effects (e.g., pulse). */
+    bool m_isSelected = false;   /**< Whether the item is selected. */
+    float m_currentScale = 1.f;  /**< Current scale of the object, interpolates toward m_targetScale. */
+    float m_targetScale = 1.f;   /**< Target scale the object should reach. */
+    float m_lerpSpeed = 10.f;    /**< Lerp speed controlling how fast currentScale approaches targetScale. */
+    float m_animationTime = 0.f; /**< Animation timer for effects (e.g., pulse). */
 };
 
 #endif
