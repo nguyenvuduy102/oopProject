@@ -3,6 +3,10 @@
 
 namespace Snake
 {
+    /**
+     * @brief Constructs a GameRenderer, initializing the font for text rendering.
+     * @param window The SFML render window for drawing.
+     */
     GameRenderer::GameRenderer(sf::RenderWindow &window) : m_window(window)
     {
         if (!m_font.openFromFile("../source/assets/fonts/JetBrainsMono-Medium.ttf"))
@@ -11,10 +15,14 @@ namespace Snake
         }
     }
 
+    /**
+     * @brief Renders the game state based on the current mode.
+     * @param controller The GameController providing the game state.
+     */
     void GameRenderer::render(const GameController &controller)
     {
-        m_window.clear(sf::Color(251,255,254));
-        m_window.draw(controller.DrawGrid(60,sf::Color(157,169,60)));
+        m_window.clear(sf::Color(251, 255, 254));
+        m_window.draw(controller.DrawGrid(60, sf::Color(157, 169, 60)));
         auto mode = controller.mode();
 
         if (mode == Mode::Menu)
@@ -75,5 +83,4 @@ namespace Snake
 
         m_window.display();
     }
-
 }
