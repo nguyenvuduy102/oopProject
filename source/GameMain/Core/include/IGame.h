@@ -1,19 +1,44 @@
-#pragma once // Stop multiple includes
+
+/**
+ * @file IGame.h
+ * @brief Declares the IGame interface for all games.
+ */
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <string>
 
-// IGame interface, define what every game gotta do
+/**
+ * @class IGame
+ * @brief Interface for game classes.
+ */
 class IGame
 {
 public:
-    // Virtual destructor for safe cleanup
+    /**
+     * @brief Virtual destructor.
+     */
     virtual ~IGame() = default;
-    // Init game with window
+
+    /**
+     * @brief Initializes the game.
+     * @param window Reference to the SFML render window.
+     */
     virtual void init(sf::RenderWindow &window) = 0;
-    // Run game loop
+
+    /**
+     * @brief Runs the game loop.
+     * @param window Reference to the SFML render window.
+     */
     virtual void run(sf::RenderWindow &window) = 0;
-    // Clean up game stuff
+
+    /**
+     * @brief Cleans up resources used by the game.
+     */
     virtual void cleanup() = 0;
-    // Get game name
+
+    /**
+     * @brief Gets the name of the game.
+     * @return Name as a string.
+     */
     virtual std::string name() const = 0;
 };

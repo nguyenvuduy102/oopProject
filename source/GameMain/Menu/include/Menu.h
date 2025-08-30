@@ -1,4 +1,4 @@
-#ifndef MENU_H // Guard to prevent multiple includes
+#ifndef MENU_H
 #define MENU_H
 
 #include <SFML/Graphics.hpp>
@@ -8,41 +8,68 @@
 #include <vector>
 #include <string>
 
-// Menu class, handle main menu and settings
+
+/**
+ * @file Menu.h
+ * @brief Declares the Menu class for the main and settings menu.
+ */
+#ifndef MENU_H
+#define MENU_H
+
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+#include "SnowBackground.h"
+#include "MenuItem.h"
+#include <vector>
+#include <string>
+
+/**
+ * @class Menu
+ * @brief Handles the main menu and settings menu.
+ */
 class Menu
 {
 public:
-    // Constructor, set up menu with window
+    /**
+     * @brief Constructs a Menu object.
+     * @param window Reference to the SFML render window.
+     */
     Menu(sf::RenderWindow &window);
 
-    // Run main menu, return user choice
+    /**
+     * @brief Runs the main menu.
+     * @return Selected menu option index.
+     */
     int run();
-    // Run settings menu for picking game
+
+    /**
+     * @brief Runs the settings menu for game selection.
+     * @return Selected settings option index.
+     */
     int runSettings();
-    int runCredits(); // Show Credits
-    int runHelp();    // Show Help
 
 private:
-    // Move selection up in menu
+    /**
+     * @brief Moves the selection up in the menu.
+     */
     void moveUp();
-    // Move selection down in menu
+
+    /**
+     * @brief Moves the selection down in the menu.
+     */
     void moveDown();
 
-    sf::RenderWindow &m_window;      // Ref to SFML window
-    sf::Font m_font;                 // Font for menu text
-    std::vector<MenuItem> m_options; // List of menu items (Play, Settings, Exit)
-    int m_selectedIndex;             // Track which item picked
-    sf::Music m_music;               // Background music
-    sf::SoundBuffer m_clickBuffer;   // Buffer for click sound
-    sf::Sound m_clickSound;          // Click sound effect
-    sf::SoundBuffer m_slideBuffer;   // Slide sound effect
-    sf::Sound m_slideSound;          // Buffer for slide sound
-
-    // Keep background as member
-    SnowBackground m_background; // Snowy background effect
-    sf::Clock m_clock;           // Clock for timing
-    sf::Texture m_titleTexture;  // Texture for title image
-    sf::Sprite m_titleSprite;    // Sprite for title image
+    sf::RenderWindow &m_window;           /**< Reference to the render window. */
+    sf::Font m_font;                      /**< Font used for menu text. */
+    std::vector<MenuItem> m_options;      /**< Menu options (Play / Settings / Exit). */
+    int m_selectedIndex;                  /**< Index of the selected menu item. */
+    sf::Music m_music;                    /**< Background music. */
+    sf::SoundBuffer m_clickBuffer;        /**< Sound buffer for click sound. */
+    sf::Sound m_clickSound;               /**< Click sound effect. */
+    SnowBackground m_background;          /**< Snow background effect. */
+    sf::Clock m_clock;                    /**< Clock for timing. */
+    sf::Texture m_titleTexture;           /**< Texture for the menu title. */
+    sf::Sprite m_titleSprite;             /**< Sprite for the menu title. */
 };
 
 #endif

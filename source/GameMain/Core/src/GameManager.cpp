@@ -1,49 +1,72 @@
+
+/**
+ * @file GameManager.cpp
+ * @brief Implements the GameManager class methods.
+ */
+
 #include "../include/GameManager.h"
 #include <fstream>
 
-static const char *SETTINGS_FILE = "settings.txt"; // Path to settings file
+/// Path to the settings file.
+static const char *SETTINGS_FILE = "settings.txt";
 
-// Get single instance of GameManager (singleton pattern)
+/**
+ * @brief Gets the singleton instance of GameManager.
+ * @return Reference to the GameManager instance.
+ */
 GameManager &GameManager::instance()
 {
-    static GameManager inst; // Create one instance, keep it forever
-    return inst;             // Return that instance
+    static GameManager inst;
+    return inst;
 }
 
-// Constructor, load settings when created
-GameManager::GameManager() { loadSettings(); } // Just call loadSettings to init
+/**
+ * @brief Constructs a GameManager object and loads settings.
+ */
+GameManager::GameManager() { loadSettings(); }
 
-// Set which game is selected
+/**
+ * @brief Sets the selected game index and saves settings.
+ * @param idx Index of the selected game.
+ */
 void GameManager::setSelected(int idx)
 {
-    // Make sure index is valid, else set to 0
     if (idx < 0 || idx >= (int)GameFactory::gameNames().size())
         idx = 0;
-    selected = idx; // Store the selected game index
-    saveSettings(); // Save choice to file
+    selected = idx;
+    saveSettings();
 }
 
-// Get the selected game’s index
-int GameManager::getSelected() const { return selected; } // Just return the index
+/**
+ * @brief Gets the selected game index.
+ * @return Index of the selected game.
+ */
+int GameManager::getSelected() const { return selected; }
 
-// Create the selected game
+/**
+ * @brief Creates an instance of the selected game.
+ * @return Unique pointer to IGame instance.
+ */
 std::unique_ptr<IGame> GameManager::createSelectedGame() const
 {
-    // Make game based on selected index
     return GameFactory::create(static_cast<GameFactory::GameId>(selected));
 }
 
-// Load settings from file
+/**
+ * @brief Loads game settings from the settings file.
+ */
 void GameManager::loadSettings()
 {
-    std::ifstream ifs(SETTINGS_FILE); // Open settings file
-    if (!(ifs >> selected))           // If can’t read index
-        selected = 0;                 // Default to 0
+    std::ifstream ifs(SETTINGS_FILE);
+    if (!(ifs >> selected))
+        selected = 0;
 }
 
-// Save settings to file
+/**
+ * @brief Saves game settings to the settings file.
+ */
 void GameManager::saveSettings() const
 {
-    std::ofstream ofs(SETTINGS_FILE, std::ios::trunc); // Open file
-    ofs << "Game choosing: " << selected;              // Write selected game
+    std::ofstream ofs(SETTINGS_FILE, std::ios::trunc);
+    ofs << "Game choosing: " << selected;
 }
