@@ -23,18 +23,18 @@ namespace Tetris
           clearSound(clearBuffer),
           gameOverSound(gameOverBuffer)
     {
-        if (!LoadSound(rotateBuffer, TryPaths("assets/music/rotate.ogg")))
+        if (!LoadSound(rotateBuffer, TryPaths("../source/assets/sounds/rotate.ogg")))
             throw std::runtime_error("Failed to load rotate.ogg");
-        if (!LoadSound(clearBuffer, TryPaths("assets/music/clear.ogg")))
+        if (!LoadSound(clearBuffer, TryPaths("../source/assets/sounds/clear.ogg")))
             throw std::runtime_error("Failed to load clear.ogg");
-        if (!LoadSound(gameOverBuffer, TryPaths("assets/music/gameover.ogg")))
+        if (!LoadSound(gameOverBuffer, TryPaths("../source/assets/sounds/gameover.ogg")))
             throw std::runtime_error("Failed to load gameover.ogg");
 
         rotateSound.setBuffer(rotateBuffer);
         clearSound.setBuffer(clearBuffer);
         gameOverSound.setBuffer(gameOverBuffer);
 
-        if (!music.openFromFile(TryPaths("assets/music/music.ogg")))
+        if (!music.openFromFile(TryPaths("../source/assets/sounds/music.ogg")))
             throw std::runtime_error("Failed to load music.ogg");
     }
 
