@@ -6,8 +6,8 @@ namespace Flappy
     // Constructor, set up renderer with texture manager
     GameRenderer::GameRenderer(TextureManager &tex)
         : m_textures(tex),
-          m_scoreText(m_font, "", 40),                 // Text for score
-          m_pressC(m_font, "Press C to continue", 30), // Text for game over prompt
+          m_scoreText(m_font, "", 76),                 // Text for score
+          m_pressC(m_font, "Press C to continue", 42), // Text for game over prompt
           m_background{
               sf::Sprite(tex.getBackground()), // Background sprites
               sf::Sprite(tex.getBackground()),
@@ -29,7 +29,7 @@ namespace Flappy
         // Setup background sprites
         for (int i = 0; i < 6; ++i)
         {
-            m_background[i].setScale({2.0f, 2.0f});        // Scale up background
+            m_background[i].setScale({2.0f, 2.2f});        // Scale up background
             m_background[i].setPosition({i * 266.f, 0.f}); // Space them out
         }
 

@@ -10,7 +10,7 @@
 int main()
 {
     // Create Window with 800px width and 600px height 
-    sf::RenderWindow window(sf::VideoMode({800, 600}), "Game Hub - SFML 3.0.0", sf::Style::Titlebar | sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode({1920,1080}), "Retro Arcade", sf::Style::Titlebar | sf::Style::Close , sf::State::Fullscreen);
     // Set Max Fps to 60 
     window.setFramerateLimit(60);
 

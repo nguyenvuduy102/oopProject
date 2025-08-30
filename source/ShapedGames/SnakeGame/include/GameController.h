@@ -35,6 +35,7 @@ namespace Snake
 
         int score1() const { return m_score1; }
         int score2() const { return m_score2; }
+        sf::VertexArray DrawGrid(int size, sf::Color c) const ;
 
     private:
         void startOnePlayer();

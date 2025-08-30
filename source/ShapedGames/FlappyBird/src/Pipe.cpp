@@ -8,12 +8,12 @@ namespace Flappy
     {
         // Setup upper pipe
         m_upper.setTexture(tex.getPipe()); // Set pipe texture
-        m_upper.setScale({1.5f, -1.5f});   // Scale and flip for top
+        m_upper.setScale({1.8f, -2.6f});   // Scale and flip for top
         m_upper.setPosition({x, gapY});    // Put at given x and gap y
 
         // Setup lower pipe
         m_lower.setTexture(tex.getPipe());          // Set pipe texture
-        m_lower.setScale({1.5f, 1.5f});             // Scale for bottom
+        m_lower.setScale({1.8f, 2.6f});             // Scale for bottom
         m_lower.setPosition({x, gapY + gapHeight}); // Put below gap
     }
 

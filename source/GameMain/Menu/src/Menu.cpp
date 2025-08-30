@@ -69,7 +69,7 @@ Menu::Menu(sf::RenderWindow &window)
     std::vector<std::string> labels = {"Play", "Game", "Credit", "Help", "Exit"};
     for (size_t i = 0; i < labels.size(); i++)
     {
-        MenuItem item(labels[i], m_font, 20, {400.f, 300.f + i * 60.f});
+        MenuItem item(labels[i], m_font, 20, {950.f, 410.f + i * 60.f});
         m_options.push_back(item);
     }
 }
@@ -187,7 +187,7 @@ int Menu::runSettings()
     std::vector<MenuItem> gameOptions;
     for (size_t i = 0; i < games.size(); i++)
     {
-        MenuItem item(games[i], m_font, 20, {400.f, 300.f + i * 60.f});
+        MenuItem item(games[i], m_font, 20, {940.f, 410.f + i * 60.f});
         gameOptions.push_back(item);
     }
 
@@ -280,20 +280,21 @@ int Menu::runCredits()
         m_window.draw(overlay);
 
         // Hiển thị dòng chữ credits
-        sf::Text title(m_font, "CREDITS", 32);
+        sf::Text title(m_font, "CREDITS", 48);
         title.setFillColor(sf::Color::Yellow);
-        title.setPosition({300.f, 200.f});
+        title.setPosition({860.f, 290.f});
 
         sf::Text text(m_font,
-                      "Game Hub Project\n\n"
-                      "Developer: Your Name\n"
-                      "Team: Awesome Team\n"
-                      "Special Thanks: Teacher, Friends, ...\n\n"
-                      "Press ESC to return",
+                      "                                                             Game Hub Project\n\n"
+                      "Developer: Tieu Dai Duy , Nguyen Duong Gia Thuan , To Hoa Phi Long , Nguyen Vu Duy\n"
+                      "                                                             Team: Awesome Team\n"
+                      "                       Special Thanks: Our Teachers for guidance and inspiration,\n"
+                      "                                our Friends for encouragement and support,\n\n\n\n"
+                      "                                                             Press ESC to return",
                       20);
 
         text.setFillColor(sf::Color::White);
-        text.setPosition({250.f, 260.f});
+        text.setPosition({560.f, 420.f});
 
         m_window.draw(title);
         m_window.draw(text);
@@ -357,17 +358,17 @@ int Menu::runHelp()
         m_window.draw(overlay);
 
         // --- Tiêu đề cố định ---
-        sf::Text title(m_font, "HOW TO PLAY", 32);
+        sf::Text title(m_font, "HOW TO PLAY", 48);
         title.setFillColor(sf::Color::Cyan);
         sf::FloatRect tb = title.getLocalBounds();
         title.setOrigin({tb.size.x / 2.f, tb.size.y / 2.f});
-        title.setPosition({m_window.getSize().x / 2.f, 80.f});
+        title.setPosition({m_window.getSize().x / 2.f, 260.f});
         m_window.draw(title);
 
         // --- Nội dung của trang hiện tại ---
-        sf::Text content(m_font, helpTexts[page], 22);
+        sf::Text content(m_font, helpTexts[page], 24);
         content.setFillColor(sf::Color::White);
-        content.setPosition({180.f, 160.f});
+        content.setPosition({800.f, 360.f});
         m_window.draw(content);
 
         // --- Nút Prev (mũi tên trái) ---
@@ -379,7 +380,7 @@ int Menu::runHelp()
             prevArrow.setPoint(1, {0.f, -20.f}); // đáy dưới
             prevArrow.setPoint(2, {-30.f, 0.f}); // mũi tên nhọn bên trái
             prevArrow.setFillColor(sf::Color::White);
-            prevArrow.setPosition({250.f, 520.f}); // vị trí trung tâm
+            prevArrow.setPosition({740.f, 520.f}); // vị trí trung tâm
 
             m_window.draw(prevArrow);
 
@@ -401,7 +402,7 @@ int Menu::runHelp()
             nextArrow.setPoint(1, {0.f, 20.f});  // đáy dưới
             nextArrow.setPoint(2, {30.f, 0.f});  // mũi tên nhọn bên phải
             nextArrow.setFillColor(sf::Color::White);
-            nextArrow.setPosition({550.f, 520.f});
+            nextArrow.setPosition({1240.f, 520.f});
 
             m_window.draw(nextArrow);
 
