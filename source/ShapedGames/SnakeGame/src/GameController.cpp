@@ -3,6 +3,12 @@
 
 namespace Snake
 {
+    /**
+     * @brief Creates a grid of lines for rendering the game board.
+     * @param size The size of each grid cell in pixels.
+     * @param c The color of the grid lines.
+     * @return A vertex array representing the grid lines.
+     */
     sf::VertexArray GameController::DrawGrid(int size, sf::Color c) const
     {
         sf::VertexArray line(sf::PrimitiveType::Lines);
@@ -31,11 +37,19 @@ namespace Snake
         }
         return line;
     }
+
+    /**
+     * @brief Constructs a GameController, initializing the game state.
+     * @param audio Reference to the AudioManager for sound effects and music.
+     */
     GameController::GameController(AudioManager &audio) : m_audio(audio)
     {
         init();
     }
 
+    /**
+     * @brief Initializes the game state, resetting scores, snakes, and food.
+     */
     void GameController::init()
     {
         m_mode = Mode::Menu;
@@ -47,6 +61,9 @@ namespace Snake
         m_clock.restart();
     }
 
+    /**
+     * @brief Starts a single-player game, initializing the snake and game state.
+     */
     void GameController::startOnePlayer()
     {
         m_mode = Mode::OnePlayer;
@@ -57,6 +74,9 @@ namespace Snake
         m_food.spawn(WINDOW_W, WINDOW_H);
     }
 
+    /**
+     * @brief Starts a two-player game, initializing both snakes and game state.
+     */
     void GameController::startTwoPlayers()
     {
         m_mode = Mode::TwoPlayers;
@@ -69,6 +89,10 @@ namespace Snake
         m_food.spawn(WINDOW_W, WINDOW_H);
     }
 
+    /**
+     * @brief Handles input events based on the current game mode.
+     * @param ev The SFML event to process (optional).
+     */
     void GameController::handleEvent(const std::optional<sf::Event> &ev)
     {
         if (!ev)
@@ -112,7 +136,6 @@ namespace Snake
                     m_p1.setDirection({-float(CELL), 0.f});
                 else if (k->code == sf::Keyboard::Key::D)
                     m_p1.setDirection({float(CELL), 0.f});
-
                 else if (k->code == sf::Keyboard::Key::Up)
                     m_p2.setDirection({0.f, -float(CELL)});
                 else if (k->code == sf::Keyboard::Key::Down)
@@ -121,7 +144,6 @@ namespace Snake
                     m_p2.setDirection({-float(CELL), 0.f});
                 else if (k->code == sf::Keyboard::Key::Right)
                     m_p2.setDirection({float(CELL), 0.f});
-
                 else if (k->code == sf::Keyboard::Key::Escape)
                     m_mode = Mode::Menu;
             }
@@ -139,6 +161,9 @@ namespace Snake
         }
     }
 
+    /**
+     * @brief Updates the game state, moving snakes and checking collisions.
+     */
     void GameController::update()
     {
         float elapsed = m_clock.getElapsedTime().asSeconds();

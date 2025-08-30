@@ -3,10 +3,18 @@
 
 namespace Snake
 {
+    /**
+     * @brief Constructs a SnakeGame instance, initializing the game controller.
+     */
     SnakeGame::SnakeGame()
         : m_controller(m_audio)
     {
     }
+
+    /**
+     * @brief Initializes the game, setting up the renderer and starting background music.
+     * @param window The SFML render window for the game.
+     */
     void SnakeGame::init(sf::RenderWindow &window)
     {
         if (m_initialized)
@@ -17,6 +25,10 @@ namespace Snake
         m_initialized = true;
     }
 
+    /**
+     * @brief Runs the main game loop, handling events, updates, and rendering.
+     * @param window The SFML render window for the game.
+     */
     void SnakeGame::run(sf::RenderWindow &window)
     {
         init(window);
@@ -42,6 +54,9 @@ namespace Snake
         }
     }
 
+    /**
+     * @brief Cleans up game resources, stopping music and deleting the renderer.
+     */
     void SnakeGame::cleanup()
     {
         m_audio.StopMusic();
