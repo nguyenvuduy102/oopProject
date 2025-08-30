@@ -1,4 +1,4 @@
-// SFML Graphics 
+// SFML Graphics
 #include <SFML/Graphics.hpp>
 // Game Menu
 #include "GameMain/Menu/include/Menu.h"
@@ -11,7 +11,7 @@ int main()
 {
     // Create Window with 800px width and 600px height 
     sf::RenderWindow window(sf::VideoMode({1920,1080}), "Retro Arcade", sf::Style::Titlebar | sf::Style::Close , sf::State::Fullscreen);
-    // Set Max Fps to 60 
+    // Set Max Fps to 60
     window.setFramerateLimit(60);
 
     Menu menu(window);
@@ -29,7 +29,7 @@ int main()
             {
                 // Game Components Init
                 game->init(window);
-                // Running Game  
+                // Running Game
                 game->run(window);
                 // Clean up thing in game
                 game->cleanup();

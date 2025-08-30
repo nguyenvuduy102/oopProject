@@ -19,8 +19,8 @@ public:
     int run();
     // Run settings menu for picking game
     int runSettings();
-    int runCredits(); // hiển thị credits
-    int runHelp();    // hiển thị hướng dẫn
+    int runCredits(); // Show Credits
+    int runHelp();    // Show Help
 
 private:
     // Move selection up in menu
@@ -34,9 +34,9 @@ private:
     int m_selectedIndex;             // Track which item picked
     sf::Music m_music;               // Background music
     sf::SoundBuffer m_clickBuffer;   // Buffer for click sound
-    sf::Sound m_clickSound;
-    sf::SoundBuffer m_slideBuffer;
-    sf::Sound m_slideSound; // Click sound effect
+    sf::Sound m_clickSound;          // Click sound effect
+    sf::SoundBuffer m_slideBuffer;   // Slide sound effect
+    sf::Sound m_slideSound;          // Buffer for slide sound
 
     // Keep background as member
     SnowBackground m_background; // Snowy background effect
