@@ -2,9 +2,17 @@
 
 namespace Tetris
 {
+    /**
+     * @brief Constructs a TetrisGame instance, initializing core components.
+     */
     TetrisGame::TetrisGame()
         : core(), audio(), renderer(nullptr), controller(nullptr) {}
 
+    /**
+     * @brief Initializes the game, loading font and setting up renderer and controller.
+     * @param window The SFML render window.
+     * @throws std::runtime_error If the font fails to load.
+     */
     void TetrisGame::init(sf::RenderWindow &window)
     {
         if (!font.openFromFile("../source/assets/fonts/stawix-sansbeamhead-semibold.otf"))
@@ -16,6 +24,10 @@ namespace Tetris
         audio.PlayMusic();
     }
 
+    /**
+     * @brief Runs the main game loop, including countdown, input handling, and rendering.
+     * @param window The SFML render window.
+     */
     void TetrisGame::run(sf::RenderWindow &window)
     {
         // === COUNTDOWN ===
@@ -100,6 +112,9 @@ namespace Tetris
         }
     }
 
+    /**
+     * @brief Cleans up game resources, deleting renderer and controller.
+     */
     void TetrisGame::cleanup()
     {
         delete renderer;

@@ -3,9 +3,19 @@
 
 namespace Tetris
 {
+    /**
+     * @brief Constructs a GameController with references to core, audio, and renderer.
+     * @param c The GameCore for game logic.
+     * @param a The AudioManager for sounds.
+     * @param r The GameRenderer for drawing.
+     */
     GameController::GameController(GameCore &c, AudioManager &a, GameRenderer &r)
         : core(c), audio(a), renderer(r) {}
 
+    /**
+     * @brief Handles user input for movement, rotation, pause, and game over menu.
+     * @param window The SFML render window.
+     */
     void GameController::HandleInput(sf::RenderWindow &window)
     {
         // ===== Game Over Menu =====
@@ -89,10 +99,17 @@ namespace Tetris
         }
     }
 
+    /**
+     * @brief Updates the game state (currently empty).
+     */
     void GameController::Update()
     {
     }
 
+    /**
+     * @brief Renders the game using the renderer.
+     * @param window The SFML render window.
+     */
     void GameController::Render(sf::RenderWindow &window)
     {
         renderer.Draw(window, core, gameOverChoice, paused);

@@ -2,6 +2,9 @@
 
 namespace Tetris
 {
+    /**
+     * @brief Predefined color constants used in the Tetris game.
+     */
     const sf::Color darkGrey(26, 31, 40, 255);
     const sf::Color green(47, 230, 23, 255);
     const sf::Color red(232, 18, 18, 255);
@@ -15,6 +18,10 @@ namespace Tetris
     const sf::Color lightGray(150, 150, 150, 255);
     const sf::Color darkLight(200, 200, 200, 255);
 
+    /**
+     * @brief Gets the list of colors used for Tetris cells.
+     * @return A vector of sf::Color objects for different block types.
+     */
     std::vector<sf::Color> GetCellColors()
     {
         return {darkGrey, green, red, orange, yellow, purple, cyan, blue};

@@ -11,6 +11,11 @@ namespace Tetris
     static constexpr int LEFT_OFFSET = 12;
     static constexpr int TOP_OFFSET = -10;
 
+    /**
+     * @brief Constructs a GameRenderer with a font and optional background image.
+     * @param f The SFML font for text rendering.
+     * @param bgPath Path to the background image (optional).
+     */
     GameRenderer::GameRenderer(sf::Font &f, const std::string &bgPath)
         : font(f)
     {
@@ -33,6 +38,13 @@ namespace Tetris
         }
     }
 
+    /**
+     * @brief Draws the entire game scene, including grid, blocks, and UI.
+     * @param window The SFML render window.
+     * @param core The GameCore providing game state.
+     * @param choice The user's choice in the game over menu (0 for YES, 1 for NO).
+     * @param paused True if the game is paused.
+     */
     void GameRenderer::Draw(sf::RenderWindow &window, GameCore &core, int choice, bool paused)
     {
         if (hasBackground)
@@ -45,6 +57,11 @@ namespace Tetris
         DrawNext(window, core.GetNextBlock());
     }
 
+    /**
+     * @brief Draws the next block preview.
+     * @param window The SFML render window.
+     * @param block The next Block to draw.
+     */
     void GameRenderer::DrawNext(sf::RenderWindow &window, const Block &block)
     {
         sf::Vector2u winSize = window.getSize();
@@ -62,43 +79,43 @@ namespace Tetris
         int bw = (maxC - minC + 1) * CELL;
         int bh = (maxR - minR + 1) * CELL;
 
-        // Đặt Next block ở góc phải trên
-        int boxSize = 200;
-        int ox = winSize.x - boxSize - 50; // cách mép phải 50px
-        int oy = 50;                       // cách mép trên 50px
+        sf::Text text(font, "Next", 32);
+        text.setFillColor(sf::Color::White);
+        text.setPosition({winSize.x / 2.f + 200.f, winSize.y / 2.f - 100.f});
+        window.draw(text);
 
-        auto colors = GetCellColors();
         for (auto &p : cells)
         {
             sf::RectangleShape cell({(float)CELL - 2, (float)CELL - 2});
-            cell.setPosition({(float)(ox + (p.column - minC) * CELL - 570.f),
-                              (float)(oy + (p.row - minR) * CELL + 250.f)});
-
-            cell.setFillColor(colors[block.id]);
-            cell.setOutlineThickness(1.f);
-            cell.setOutlineColor(sf::Color::Black);
+            cell.setFillColor(GetCellColors()[block.id]);
+            cell.setPosition({winSize.x / 2.f + 200.f + (p.column - minC) * CELL,
+                              winSize.y / 2.f - 100.f + (p.row - minR) * CELL + 50.f});
             window.draw(cell);
         }
     }
 
+    /**
+     * @brief Draws the user interface elements like score, lines, level, pause overlay, and game over menu.
+     * @param window The SFML render window.
+     * @param core The GameCore providing game data.
+     * @param choice The user's choice in the game over menu.
+     * @param paused True if the game is paused.
+     */
     void GameRenderer::DrawUI(sf::RenderWindow &window, GameCore &core, int choice, bool paused)
     {
         sf::Vector2u winSize = window.getSize();
 
-        auto drawVal = [&](const char *label, int val, float y)
+        auto drawVal = [&](const std::string &label, int val, float y)
         {
-            char buf[32];
-            std::snprintf(buf, sizeof(buf), "%d", val);
-            sf::Text t(font, buf, 32);
-            t.setFillColor(sf::Color::White);
+            sf::Text lbl(font, label, 32);
+            lbl.setFillColor(sf::Color::White);
+            lbl.setPosition({winSize.x / 2.f - 200.f, y});
+            window.draw(lbl);
 
-            sf::FloatRect bounds = t.getLocalBounds();
-            t.setOrigin({bounds.position.x + bounds.size.x / 2.f,
-                         bounds.position.y});
-
-            // Đặt cột thông tin ở gần mép phải
-            t.setPosition({winSize.x - 770.f, y + 200.f});
-            window.draw(t);
+            sf::Text v(font, std::to_string(val), 32);
+            v.setFillColor(sf::Color::White);
+            v.setPosition({winSize.x / 2.f - 100.f, y});
+            window.draw(v);
         };
 
         drawVal("Score", core.GetScore(), 300.f);

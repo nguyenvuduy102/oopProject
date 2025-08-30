@@ -5,6 +5,9 @@
 
 namespace Tetris
 {
+    /**
+     * @brief Constructs a GameCore instance, initializing game state.
+     */
     GameCore::GameCore()
         : score(0), linesClearedTotal(0), level(1), paused(false), gameOver(false)
     {
@@ -14,21 +17,69 @@ namespace Tetris
         nextBlock = GetRandomBlock();
     }
 
+    /**
+     * @brief Updates the game state (currently empty).
+     */
     void GameCore::Update()
     {
     }
 
+    /**
+     * @brief Checks if the game is over.
+     * @return True if game over, false otherwise.
+     */
     bool GameCore::IsGameOver() const { return gameOver; }
+
+    /**
+     * @brief Gets the current score.
+     * @return The score.
+     */
     int GameCore::GetScore() const { return score; }
+
+    /**
+     * @brief Gets the total lines cleared.
+     * @return The number of lines cleared.
+     */
     int GameCore::GetLines() const { return linesClearedTotal; }
+
+    /**
+     * @brief Gets the current level.
+     * @return The level.
+     */
     int GameCore::GetLevel() const { return level; }
+
+    /**
+     * @brief Checks if the game is paused.
+     * @return True if paused, false otherwise.
+     */
     bool GameCore::IsPaused() const { return paused; }
+
+    /**
+     * @brief Toggles the pause state.
+     */
     void GameCore::TogglePause() { paused = !paused; }
 
+    /**
+     * @brief Gets the next block.
+     * @return Const reference to the next Block.
+     */
     const Block &GameCore::GetNextBlock() const { return nextBlock; }
+
+    /**
+     * @brief Gets the current block.
+     * @return Const reference to the current Block.
+     */
     const Block &GameCore::GetCurrentBlock() const { return currentBlock; }
+
+    /**
+     * @brief Gets the game grid.
+     * @return Reference to the Grid.
+     */
     Grid &GameCore::GetGrid() { return grid; }
 
+    /**
+     * @brief Resets the game to initial state.
+     */
     void GameCore::Reset()
     {
         grid.Initialize();
@@ -42,6 +93,9 @@ namespace Tetris
         gameOver = false;
     }
 
+    /**
+     * @brief Moves the current block left if possible.
+     */
     void GameCore::MoveLeft()
     {
         if (gameOver || paused)
@@ -51,6 +105,9 @@ namespace Tetris
             currentBlock.Move(0, 1);
     }
 
+    /**
+     * @brief Moves the current block right if possible.
+     */
     void GameCore::MoveRight()
     {
         if (gameOver || paused)
@@ -60,6 +117,10 @@ namespace Tetris
             currentBlock.Move(0, -1);
     }
 
+    /**
+     * @brief Moves the current block down, handling locking and row clearing.
+     * @return A StepResult struct with details on rows cleared and game over status.
+     */
     GameCore::StepResult GameCore::MoveDown()
     {
         StepResult r{};
@@ -94,6 +155,10 @@ namespace Tetris
         return r;
     }
 
+    /**
+     * @brief Rotates the current block if possible.
+     * @return True if rotation succeeded, false otherwise.
+     */
     bool GameCore::Rotate()
     {
         if (gameOver || paused)
@@ -108,6 +173,10 @@ namespace Tetris
         return true;
     }
 
+    /**
+     * @brief Gets a random block from the available blocks.
+     * @return A random Block.
+     */
     Block GameCore::GetRandomBlock()
     {
         if (blocks.empty())
@@ -119,6 +188,10 @@ namespace Tetris
         return b;
     }
 
+    /**
+     * @brief Checks if the current block is outside the grid boundaries.
+     * @return True if outside, false otherwise.
+     */
     bool GameCore::IsBlockOutside()
     {
         for (auto p : currentBlock.GetCellPositions())
@@ -127,6 +200,10 @@ namespace Tetris
         return false;
     }
 
+    /**
+     * @brief Checks if the current block fits without overlapping occupied cells.
+     * @return True if it fits, false otherwise.
+     */
     bool GameCore::BlockFits()
     {
         for (auto p : currentBlock.GetCellPositions())
@@ -135,6 +212,11 @@ namespace Tetris
         return true;
     }
 
+    /**
+     * @brief Updates the score based on lines cleared and move down points.
+     * @param linesCleared Number of lines cleared.
+     * @param moveDownPoints Additional points for moving down.
+     */
     void GameCore::UpdateScore(int linesCleared, int moveDownPoints)
     {
         switch (linesCleared)
@@ -157,6 +239,10 @@ namespace Tetris
         score += moveDownPoints;
     }
 
+    /**
+     * @brief Handles logic after rows are cleared, updating lines and level.
+     * @param rows Number of rows cleared.
+     */
     void GameCore::OnRowsCleared(int rows)
     {
         if (rows <= 0)
