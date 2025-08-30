@@ -1,27 +1,59 @@
-#pragma once // Stop multiple includes
+
+/**
+ * @file GameManager.h
+ * @brief Declares the GameManager class for managing game selection and settings.
+ */
+#pragma once
 #include <memory>
 #include "IGame.h"
 #include "GameFactory.h"
 
-// GameManager class, handle game selection and settings
+/**
+ * @class GameManager
+ * @brief Singleton class for managing game selection and settings.
+ */
 class GameManager
 {
 public:
-    // Get single instance (singleton)
+    /**
+     * @brief Gets the singleton instance of GameManager.
+     * @return Reference to the GameManager instance.
+     */
     static GameManager &instance();
-    // Set which game is picked
+
+    /**
+     * @brief Sets the selected game index.
+     * @param idx Index of the selected game.
+     */
     void setSelected(int idx);
-    // Get selected game index
+
+    /**
+     * @brief Gets the selected game index.
+     * @return Index of the selected game.
+     */
     int getSelected() const;
-    // Make the selected game
+
+    /**
+     * @brief Creates an instance of the selected game.
+     * @return Unique pointer to IGame instance.
+     */
     std::unique_ptr<IGame> createSelectedGame() const;
-    // Load settings from file
+
+    /**
+     * @brief Loads game settings from storage.
+     */
     void loadSettings();
-    // Save settings to file
+
+    /**
+     * @brief Saves game settings to storage.
+     */
     void saveSettings() const;
 
 private:
-    // Constructor, private for singleton
+    /**
+     * @brief Constructs a GameManager object.
+     */
     GameManager();
-    int selected = 0; // Store selected game index
+
+    int selected = 0; /**< Index of the selected game. */
 };
