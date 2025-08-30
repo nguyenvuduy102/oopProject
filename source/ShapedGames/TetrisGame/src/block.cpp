@@ -17,12 +17,20 @@ namespace Tetris
         for (auto &p : GetCellPositions())
         {
             sf::RectangleShape cell({(float)CELL, (float)CELL});
-            cell.setPosition({(float)(offsetX + p.column * CELL + 108.f),
-                              (float)(offsetY + p.row * CELL + 30.f)});
+
+            sf::Vector2u winSize = window.getSize();
+            float boardWidth = 12 * CELL;
+            float boardHeight = 20 * CELL;
+            float startX = (winSize.x - boardWidth) / 2.f;  // căn giữa ngang
+            float startY = (winSize.y - boardHeight) / 2.f; // căn giữa dọc
+
+            cell.setPosition({startX + offsetX + p.column * CELL - 125.f,
+                              startY + offsetY + p.row * CELL + 10.f});
 
             cell.setFillColor(colors[id]);
             cell.setOutlineThickness(1.f);
             cell.setOutlineColor(sf::Color::Black);
+
             window.draw(cell);
         }
     }
@@ -37,11 +45,14 @@ namespace Tetris
     {
         std::vector<Position> tiles = cells.at(rotationState);
         std::vector<Position> movedTiles;
+
         for (Position item : tiles)
         {
-            Position newPos = Position(item.row + rowOffset, item.column + columnOffset);
+            Position newPos = Position(item.row + rowOffset,
+                                       item.column + columnOffset);
             movedTiles.push_back(newPos);
         }
+
         return movedTiles;
     }
 
