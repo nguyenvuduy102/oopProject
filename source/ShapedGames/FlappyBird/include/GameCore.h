@@ -1,4 +1,4 @@
-#pragma once // Stop multiple includes
+#pragma once // Prevent multiple includes
 #include <SFML/Graphics.hpp>
 #include <deque>
 #include <random>
@@ -9,115 +9,115 @@
 
 /**
  * @file GameCore.h
- * @brief Khai báo lớp GameCore, xử lý logic chính của trò chơi Flappy Bird.
+ * @brief Declares the GameCore class, which handles the main logic of Flappy Bird.
  */
 
 namespace Flappy
 {
     /**
      * @enum GameState
-     * @brief Trạng thái của trò chơi.
+     * @brief Represents the current state of the game.
      */
     enum class GameState
     {
-        Waiting, /**< Trước khi trò chơi bắt đầu */
-        Started, /**< Trò chơi đang chạy */
-        Gameover /**< Trò chơi đã kết thúc */
+        Waiting, /**< Before the game starts */
+        Started, /**< The game is running */
+        Gameover /**< The game has ended */
     };
 
     /**
      * @class GameCore
-     * @brief Lớp xử lý toàn bộ logic của game Flappy Bird.
+     * @brief Handles the entire game logic of Flappy Bird.
      *
-     * Chức năng chính:
-     * - Quản lý chim (Bird), ống (Pipe), và âm thanh (AudioManager).
-     * - Xử lý input, va chạm và tính điểm.
-     * - Sinh pipe ngẫu nhiên và cập nhật trạng thái game.
+     * Responsibilities:
+     * - Manage the bird (Bird), pipes (Pipe), and audio (AudioManager).
+     * - Handle input, collision detection, and scoring.
+     * - Randomly generate pipes and update the game state.
      */
     class GameCore
     {
     public:
         /**
          * @brief Constructor.
-         * @param tex Tham chiếu tới TextureManager để quản lý texture.
+         * @param tex Reference to the TextureManager for managing textures.
          */
         GameCore(TextureManager &tex);
 
         /**
-         * @brief Khởi tạo game với kích thước cửa sổ.
-         * @param windowSize Kích thước cửa sổ render.
+         * @brief Initialize the game with the window size.
+         * @param windowSize Size of the rendering window.
          */
         void init(const sf::Vector2u &windowSize);
 
         /**
-         * @brief Cập nhật trạng thái trò chơi.
-         * @param windowSize Kích thước cửa sổ render.
-         * @param delta Thời gian trôi qua giữa 2 frame (giây).
-         * @param frames Số frame để điều khiển hoạt ảnh.
+         * @brief Update the game state.
+         * @param windowSize Size of the rendering window.
+         * @param delta Time elapsed between frames (seconds).
+         * @param frames Frame count used to control animation.
          */
         void update(const sf::Vector2u &windowSize, float delta, int frames);
 
         /**
-         * @brief Xử lý input từ người chơi, thay đổi trạng thái nếu cần.
-         * @param state Trạng thái hiện tại của game.
-         * @param newState Trạng thái mới sau khi xử lý input.
+         * @brief Handle player input and update game state if needed.
+         * @param state Current state of the game.
+         * @param newState New state of the game after processing input.
          */
         void handleInput(GameState state, GameState &newState);
 
         /**
-         * @brief Lấy chim (có thể chỉnh sửa).
-         * @return Tham chiếu tới Bird.
+         * @brief Get the bird (modifiable).
+         * @return Reference to Bird.
          */
         Bird &bird() { return m_bird; }
 
         /**
-         * @brief Lấy chim (chỉ đọc).
-         * @return Tham chiếu const tới Bird.
+         * @brief Get the bird (read-only).
+         * @return Const reference to Bird.
          */
         const Bird &bird() const { return m_bird; }
 
         /**
-         * @brief Lấy danh sách ống.
-         * @return Tham chiếu const tới deque chứa Pipe.
+         * @brief Get the list of pipes.
+         * @return Const reference to a deque of Pipe objects.
          */
         const std::deque<Pipe> &pipes() const { return m_pipes; }
 
         /**
-         * @brief Lấy điểm hiện tại.
-         * @return Điểm số của người chơi.
+         * @brief Get the current score.
+         * @return Player's score.
          */
         int score() const { return m_score; }
 
         /**
-         * @brief Reset game về trạng thái ban đầu.
-         * @param windowSize Kích thước cửa sổ render.
+         * @brief Reset the game to its initial state.
+         * @param windowSize Size of the rendering window.
          */
         void reset(const sf::Vector2u &windowSize);
 
     private:
-        TextureManager &m_textures; /**< Quản lý texture */
-        Bird m_bird;                /**< Chim trong game */
-        std::deque<Pipe> m_pipes;   /**< Danh sách ống */
-        AudioManager m_audio;       /**< Quản lý âm thanh */
-        std::mt19937 m_rng;         /**< Bộ sinh số ngẫu nhiên */
-        int m_score;                /**< Điểm số hiện tại */
-        float m_gravity;            /**< Trọng lực tác động lên chim */
-        float m_flapImpulse;        /**< Độ mạnh khi chim vỗ cánh */
-        float m_pipeInterval;       /**< Khoảng thời gian giữa các ống */
-        float m_pipeGap;            /**< Khoảng cách giữa 2 ống */
-        float m_pipeSpeed;          /**< Tốc độ di chuyển của ống */
-        float m_spawnTimer;         /**< Bộ đếm thời gian để sinh ống */
+        TextureManager &m_textures; /**< Texture manager */
+        Bird m_bird;                /**< Bird instance */
+        std::deque<Pipe> m_pipes;   /**< List of pipes */
+        AudioManager m_audio;       /**< Audio manager */
+        std::mt19937 m_rng;         /**< Random number generator */
+        int m_score;                /**< Current score */
+        float m_gravity;            /**< Gravity applied to the bird */
+        float m_flapImpulse;        /**< Impulse strength when flapping */
+        float m_pipeInterval;       /**< Time interval between pipe spawns */
+        float m_pipeGap;            /**< Vertical gap between top and bottom pipes */
+        float m_pipeSpeed;          /**< Speed of pipe movement */
+        float m_spawnTimer;         /**< Timer for spawning pipes */
 
         /**
-         * @brief Sinh một ống mới.
-         * @param windowSize Kích thước cửa sổ render.
+         * @brief Spawn a new pipe.
+         * @param windowSize Size of the rendering window.
          */
         void spawnPipe(const sf::Vector2u &windowSize);
 
         /**
-         * @brief Kiểm tra va chạm của chim với ống hoặc mặt đất.
-         * @param windowSize Kích thước cửa sổ render.
-         * @return true nếu có va chạm, false nếu không.
+         * @brief Check for collisions between the bird and pipes or the ground.
+         * @param windowSize Size of the rendering window.
+         * @return true if a collision occurred, false otherwise.
          */
         bool checkCollision(const sf::Vector2u &windowSize);
     };

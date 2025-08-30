@@ -2,105 +2,153 @@
 
 namespace Flappy
 {
-    // Constructor, setup game with texture and defaults
+    /**
+     * @brief Construct a new GameCore instance with default values.
+     * 
+     * Initializes bird, physics settings, and pipe parameters.
+     * @param tex Reference to the shared TextureManager.
+     */
     GameCore::GameCore(TextureManager &tex)
         : m_textures(tex), m_bird(tex), m_rng(std::random_device{}()),
           m_score(0), m_gravity(0.35f), m_flapImpulse(-3.f),
           m_pipeInterval(2.5f), m_pipeGap(150.f), m_pipeSpeed(3.f), m_spawnTimer(0.f) {}
 
-    // Init game with window size
+    /**
+     * @brief Initialize the game with the given window size.
+     * 
+     * Loads audio assets and resets the game state.
+     * @param windowSize The size of the render window.
+     */
     void GameCore::init(const sf::Vector2u &windowSize)
     {
-        m_audio.load();    // Load sound stuff
-        reset(windowSize); // Get game ready
+        m_audio.load();
+        reset(windowSize);
     }
 
-    // Update game, move bird and pipes
+    /**
+     * @brief Update the game state each frame.
+     * 
+     * Moves the bird, spawns pipes, updates positions, checks scoring,
+     * and detects collisions.
+     * 
+     * @param windowSize Current window dimensions.
+     * @param delta Time since last frame in seconds.
+     * @param frames Frame counter.
+     */
     void GameCore::update(const sf::Vector2u &windowSize, float delta, int frames)
     {
-        m_bird.update(m_gravity, frames, true, true); // Move and animate bird
-        m_spawnTimer += delta;                        // Track time for new pipe
+        m_bird.update(m_gravity, frames, true, true);
+        m_spawnTimer += delta;
 
-        // Add pipe when time’s up
+        // Spawn new pipe when interval reached
         if (m_spawnTimer >= m_pipeInterval)
         {
-            spawnPipe(windowSize); // Make new pipe
-            m_spawnTimer = 0.f;    // Reset timer
+            spawnPipe(windowSize);
+            m_spawnTimer = 0.f;
         }
 
-        // Move all pipes
+        // Update pipe positions
         for (auto &pipe : m_pipes)
-            pipe.update(m_pipeSpeed); // Slide pipes left
+            pipe.update(m_pipeSpeed);
 
-        // Clear pipes off screen
+        // Remove off-screen pipes
         while (!m_pipes.empty() && m_pipes.front().isOffScreen())
             m_pipes.pop_front();
 
-        // Check for score
+        // Handle scoring
         for (auto &pipe : m_pipes)
         {
-            if (!pipe.hasScored() && pipe.upper().getPosition().x + pipe.upper().getGlobalBounds().size.x < m_bird.getPosition().x)
+            if (!pipe.hasScored() &&
+                pipe.upper().getPosition().x + pipe.upper().getGlobalBounds().size.x < m_bird.getPosition().x)
             {
-                m_score++;           // Up score
-                pipe.setScored();    // Mark pipe done
-                m_audio.playScore(); // Play score sound
+                m_score++;
+                pipe.setScored();
+                m_audio.playScore();
             }
         }
 
-        // Check if bird crash
+        // Handle collisions
         if (checkCollision(windowSize))
         {
-            m_audio.playHit(); // Play crash sound
-            reset(windowSize); // Start over
+            m_audio.playHit();
+            reset(windowSize);
         }
     }
 
-    // Handle spacebar input
+    /**
+     * @brief Handle player input.
+     * 
+     * Spacebar starts the game from waiting state or makes the bird flap
+     * during gameplay.
+     * 
+     * @param state Current game state.
+     * @param newState State to update if input changes it.
+     */
     void GameCore::handleInput(GameState state, GameState &newState)
     {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) // If space hit
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
         {
-            if (state == GameState::Waiting)   // If game not started
-                newState = GameState::Started; // Start it
-            if (state == GameState::Started)   // If playing
+            if (state == GameState::Waiting)
+                newState = GameState::Started;
+
+            if (state == GameState::Started)
             {
-                m_bird.flap(m_flapImpulse); // Bird jump
-                m_audio.playFlap();         // Play flap sound
+                m_bird.flap(m_flapImpulse);
+                m_audio.playFlap();
             }
         }
     }
 
-    // Add new pipe pair
+    /**
+     * @brief Spawn a new pair of pipes at a random vertical position.
+     * 
+     * @param windowSize Dimensions of the render window.
+     */
     void GameCore::spawnPipe(const sf::Vector2u &windowSize)
     {
-        std::uniform_int_distribution<int> dist(100, 400);                                                       // Random gap height
-        int r = dist(m_rng);                                                                                     // Pick random y
-        m_pipes.emplace_back((float)windowSize.x + 100.f, (float)r, m_pipeGap, m_textures, (float)windowSize.y); // Add pipe
+        std::uniform_int_distribution<int> dist(100, 400);
+        int r = dist(m_rng);
+        m_pipes.emplace_back(
+            static_cast<float>(windowSize.x) + 100.f,
+            static_cast<float>(r),
+            m_pipeGap,
+            m_textures,
+            static_cast<float>(windowSize.y));
     }
 
-    // Check if bird hit something
+    /**
+     * @brief Check whether the bird has collided with the ground or a pipe.
+     * 
+     * @param windowSize Dimensions of the render window.
+     * @return true if collision detected, false otherwise.
+     */
     bool GameCore::checkCollision(const sf::Vector2u &windowSize)
     {
-        if (m_bird.getPosition().y > windowSize.y) // If bird hit ground
+        if (m_bird.getPosition().y > windowSize.y)
             return true;
 
-        // Check pipes
         for (auto &pipe : m_pipes)
         {
-            if (m_bird.getBounds().findIntersection(pipe.upper().getGlobalBounds())) // Hit upper pipe
+            if (m_bird.getBounds().findIntersection(pipe.upper().getGlobalBounds()))
                 return true;
-            if (m_bird.getBounds().findIntersection(pipe.lower().getGlobalBounds())) // Hit lower pipe
+            if (m_bird.getBounds().findIntersection(pipe.lower().getGlobalBounds()))
                 return true;
         }
-        return false; // No crash
+        return false;
     }
 
-    // Reset game state
+    /**
+     * @brief Reset the game to its initial state.
+     * 
+     * Resets the bird, clears all pipes, and resets score and timers.
+     * 
+     * @param windowSize Current window size.
+     */
     void GameCore::reset(const sf::Vector2u &windowSize)
     {
-        m_bird.reset(windowSize); // Reset bird
-        m_pipes.clear();          // Clear pipes
-        m_score = 0;              // Reset score
-        m_spawnTimer = 0.f;       // Reset pipe timer
+        m_bird.reset(windowSize);
+        m_pipes.clear();
+        m_score = 0;
+        m_spawnTimer = 0.f;
     }
 }

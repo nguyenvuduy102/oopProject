@@ -1,9 +1,9 @@
 /**
  * @file GameRenderer.h
- * @brief Khai báo lớp GameRenderer, chịu trách nhiệm vẽ toàn bộ nội dung game Flappy Bird.
+ * @brief Declares the GameRenderer class, responsible for rendering the entire Flappy Bird game.
  */
 
-#pragma once // Stop multiple includes
+#pragma once // Prevent multiple includes
 #include <SFML/Graphics.hpp>
 #include "Bird.h"
 #include "Pipe.h"
@@ -15,34 +15,34 @@ namespace Flappy
 {
     /**
      * @class GameRenderer
-     * @brief Lớp chịu trách nhiệm vẽ các đối tượng và giao diện của trò chơi Flappy Bird.
+     * @brief Responsible for rendering all game objects and UI in Flappy Bird.
      *
-     * Chức năng chính:
-     * - Vẽ chim (Bird), ống (Pipe), điểm số và giao diện kết thúc game.
-     * - Quản lý font chữ, background và texture.
+     * Main responsibilities:
+     * - Draw the bird (Bird), pipes (Pipe), score, and game-over screen.
+     * - Manage fonts, background, and textures.
      */
     class GameRenderer
     {
     public:
         /**
          * @brief Constructor.
-         * @param tex Tham chiếu tới TextureManager để quản lý texture.
+         * @param tex Reference to TextureManager for texture management.
          */
         GameRenderer(TextureManager &tex);
 
         /**
-         * @brief Tải font và texture cần thiết cho việc render.
+         * @brief Load fonts and textures required for rendering.
          */
         void load();
 
         /**
-         * @brief Vẽ toàn bộ khung hình của trò chơi lên cửa sổ.
-         * @param window Cửa sổ render.
-         * @param bird Chim trong game.
-         * @param pipes Danh sách các ống.
-         * @param score Điểm số hiện tại.
-         * @param state Trạng thái game (đang chờ, đang chạy, game over).
-         * @param frames Số frame để điều khiển hoạt ảnh.
+         * @brief Render the entire game frame onto the window.
+         * @param window The render window.
+         * @param bird The bird in the game.
+         * @param pipes List of pipes.
+         * @param score Current score.
+         * @param state Game state (waiting, running, or game over).
+         * @param frames Frame counter for animation.
          */
         void render(sf::RenderWindow &window,
                     const Bird &bird,
@@ -52,11 +52,11 @@ namespace Flappy
                     int frames);
 
     private:
-        TextureManager &m_textures;             /**< Tham chiếu tới TextureManager */
-        sf::Font m_font;                        /**< Font chữ để hiển thị điểm */
-        sf::Text m_scoreText;                   /**< Text hiển thị điểm số */
-        std::array<sf::Sprite, 6> m_background; /**< Mảng sprite background */
-        sf::Sprite m_gameover;                  /**< Hình ảnh "Game Over" */
-        sf::Text m_pressC;                      /**< Text hướng dẫn "Press C" */
+        TextureManager &m_textures;             /**< Reference to TextureManager */
+        sf::Font m_font;                        /**< Font for displaying score */
+        sf::Text m_scoreText;                   /**< Text displaying the score */
+        std::array<sf::Sprite, 6> m_background; /**< Array of background sprites */
+        sf::Sprite m_gameover;                  /**< "Game Over" image */
+        sf::Text m_pressC;                      /**< Instruction text: "Press C" */
     };
 }

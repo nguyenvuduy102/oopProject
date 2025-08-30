@@ -1,16 +1,16 @@
-#pragma once // Stop multiple includes
+#pragma once // Prevent multiple includes
 #include <SFML/Audio.hpp>
 
 namespace Flappy
 {
     /**
      * @class AudioManager
-     * @brief Quản lý âm thanh cho game Flappy Bird.
+     * @brief Manages sound effects for the Flappy Bird game.
      *
-     * Lớp này chịu trách nhiệm tải và phát các hiệu ứng âm thanh:
-     * - Tiếng vỗ cánh khi chim nhảy
-     * - Tiếng ghi điểm khi chim vượt qua ống
-     * - Tiếng va chạm khi chim đâm vào chướng ngại vật
+     * This class is responsible for loading and playing the following sound effects:
+     * - Flap sound when the bird jumps
+     * - Score sound when the bird passes a pipe
+     * - Hit sound when the bird collides with an obstacle
      */
     class AudioManager
     {
@@ -18,37 +18,39 @@ namespace Flappy
         /**
          * @brief Constructor.
          *
-         * Khởi tạo AudioManager và thiết lập âm thanh.
+         * Initializes the AudioManager and prepares the sound objects.
          */
         AudioManager();
 
         /**
-         * @brief Nạp các file âm thanh cần thiết.
+         * @brief Load all required sound files.
+         *
+         * Throws a runtime_error if a sound file fails to load.
          */
         void load();
 
         /**
-         * @brief Phát âm thanh vỗ cánh khi chim nhảy.
+         * @brief Play the flap sound when the bird jumps.
          */
         void playFlap();
 
         /**
-         * @brief Phát âm thanh ghi điểm khi chim vượt qua ống.
+         * @brief Play the score sound when the bird passes a pipe.
          */
         void playScore();
 
         /**
-         * @brief Phát âm thanh va chạm khi chim đâm vào vật cản.
+         * @brief Play the hit sound when the bird collides with an obstacle.
          */
         void playHit();
 
     private:
-        sf::SoundBuffer m_flapBuffer;  /**< Bộ nhớ đệm cho âm thanh vỗ cánh */
-        sf::SoundBuffer m_scoreBuffer; /**< Bộ nhớ đệm cho âm thanh ghi điểm */
-        sf::SoundBuffer m_hitBuffer;   /**< Bộ nhớ đệm cho âm thanh va chạm */
+        sf::SoundBuffer m_flapBuffer;   /**< Buffer for the flap sound */
+        sf::SoundBuffer m_scoreBuffer;  /**< Buffer for the score sound */
+        sf::SoundBuffer m_hitBuffer;    /**< Buffer for the hit sound */
 
-        sf::Sound m_flapSound;   /**< Hiệu ứng âm thanh vỗ cánh */
-        sf::Sound m_scoreSound;  /**< Hiệu ứng âm thanh ghi điểm */
-        sf::Sound m_hitSound;    /**< Hiệu ứng âm thanh va chạm */
+        sf::Sound m_flapSound;   /**< Flap sound effect */
+        sf::Sound m_scoreSound;  /**< Score sound effect */
+        sf::Sound m_hitSound;    /**< Hit sound effect */
     };
 }

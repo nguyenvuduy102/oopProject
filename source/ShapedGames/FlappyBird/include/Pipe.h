@@ -1,9 +1,9 @@
 /**
  * @file Pipe.h
- * @brief Khai báo lớp Pipe, quản lý một cặp ống (trên và dưới) trong trò chơi Flappy Bird.
+ * @brief Declares the Pipe class, which manages a pair of pipes (upper and lower) in the Flappy Bird game.
  */
 
-#pragma once // Stop multiple includes
+#pragma once // Prevent multiple includes
 #include <SFML/Graphics.hpp>
 #include "TextureManager.h"
 
@@ -11,64 +11,64 @@ namespace Flappy
 {
     /**
      * @class Pipe
-     * @brief Lớp quản lý một cặp ống (trên và dưới).
+     * @brief Manages a pair of pipes (upper and lower).
      *
-     * Chức năng chính:
-     * - Khởi tạo vị trí và kích thước khoảng cách giữa các ống.
-     * - Cập nhật vị trí ống theo tốc độ di chuyển.
-     * - Kiểm tra va chạm, ngoài màn hình, và điểm số.
+     * Responsibilities:
+     * - Initialize pipe positions and the gap between them.
+     * - Update pipe position based on movement speed.
+     * - Check for collisions, off-screen status, and scoring.
      */
     class Pipe
     {
     public:
         /**
          * @brief Constructor.
-         * @param x Vị trí X của ống.
-         * @param gapY Vị trí Y của khoảng trống giữa 2 ống.
-         * @param gapHeight Chiều cao khoảng trống.
-         * @param tex Quản lý texture (TextureManager).
-         * @param windowHeight Chiều cao của cửa sổ game.
+         * @param x X position of the pipe.
+         * @param gapY Y position of the gap between the two pipes.
+         * @param gapHeight Height of the gap.
+         * @param tex Texture manager (TextureManager).
+         * @param windowHeight Height of the game window.
          */
         Pipe(float x, float gapY, float gapHeight, const TextureManager &tex, float windowHeight);
 
         /**
-         * @brief Cập nhật vị trí ống dựa trên tốc độ.
-         * @param speed Tốc độ di chuyển (theo trục X).
+         * @brief Update the pipe’s position based on speed.
+         * @param speed Movement speed (along the X axis).
          */
         void update(float speed);
 
         /**
-         * @brief Lấy sprite của ống trên.
-         * @return Tham chiếu hằng đến sprite của ống trên.
+         * @brief Get the upper pipe sprite.
+         * @return Const reference to the upper pipe sprite.
          */
         const sf::Sprite &upper() const { return m_upper; }
 
         /**
-         * @brief Lấy sprite của ống dưới.
-         * @return Tham chiếu hằng đến sprite của ống dưới.
+         * @brief Get the lower pipe sprite.
+         * @return Const reference to the lower pipe sprite.
          */
         const sf::Sprite &lower() const { return m_lower; }
 
         /**
-         * @brief Kiểm tra xem ống đã đi ra ngoài màn hình chưa.
-         * @return true nếu ống ra khỏi màn hình, false nếu chưa.
+         * @brief Check if the pipe has moved off-screen.
+         * @return true if the pipe is off-screen, false otherwise.
          */
         bool isOffScreen() const;
 
         /**
-         * @brief Kiểm tra xem ống đã được tính điểm chưa.
-         * @return true nếu đã tính điểm, false nếu chưa.
+         * @brief Check if this pipe has already been scored.
+         * @return true if already scored, false otherwise.
          */
         bool hasScored() const { return m_scored; }
 
         /**
-         * @brief Đánh dấu ống đã được tính điểm.
+         * @brief Mark this pipe as scored.
          */
         void setScored() { m_scored = true; }
 
     private:
-        sf::Sprite m_upper; /**< Sprite cho ống trên */
-        sf::Sprite m_lower; /**< Sprite cho ống dưới */
-        bool m_scored;      /**< Đã được tính điểm hay chưa */
+        sf::Sprite m_upper; /**< Sprite for the upper pipe */
+        sf::Sprite m_lower; /**< Sprite for the lower pipe */
+        bool m_scored;      /**< Whether this pipe has been scored already */
     };
 }

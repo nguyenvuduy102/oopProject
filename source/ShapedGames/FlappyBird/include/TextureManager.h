@@ -1,9 +1,9 @@
 /**
  * @file TextureManager.h
- * @brief Khai báo lớp TextureManager, chịu trách nhiệm tải và quản lý texture cho Flappy Bird.
+ * @brief Declares the TextureManager class, responsible for loading and managing textures for Flappy Bird.
  */
 
-#pragma once // Stop multiple includes
+#pragma once // Prevent multiple includes
 #include <SFML/Graphics.hpp>
 #include <array>
 
@@ -11,62 +11,62 @@ namespace Flappy
 {
     /**
      * @class TextureManager
-     * @brief Lớp chịu trách nhiệm tải và lưu trữ tất cả các texture được sử dụng trong game Flappy Bird.
+     * @brief Responsible for loading and storing all textures used in Flappy Bird.
      *
-     * Bao gồm:
-     * - Các frame animation của chim.
-     * - Texture ống (Pipe).
-     * - Texture background.
-     * - Texture Game Over.
+     * Includes:
+     * - Bird animation frames
+     * - Pipe texture
+     * - Background texture
+     * - Game Over texture
      */
     class TextureManager
     {
     public:
         /**
-         * @brief Constructor mặc định. Khởi tạo TextureManager.
+         * @brief Default constructor. Initializes the TextureManager.
          */
         TextureManager();
 
         /**
-         * @brief Tải tất cả texture cần thiết cho game.
+         * @brief Load all required game textures.
          *
-         * Hàm này sẽ load toàn bộ:
-         * - 3 frame animation của chim.
-         * - Texture ống.
-         * - Texture background.
-         * - Texture màn hình game over.
+         * This function loads:
+         * - 3 bird animation frames
+         * - Pipe texture
+         * - Background texture
+         * - Game Over texture
          */
         void load();
 
         /**
-         * @brief Lấy texture của chim theo frame.
-         * @param frame Chỉ số frame (0-2).
-         * @return Texture tương ứng với frame của chim.
+         * @brief Get the bird texture for a given frame.
+         * @param frame Frame index (0-2).
+         * @return Texture for the given bird frame.
          */
         const sf::Texture &getBird(int frame) const { return m_bird[frame]; }
 
         /**
-         * @brief Lấy texture của ống.
-         * @return Texture của ống.
+         * @brief Get the pipe texture.
+         * @return Pipe texture.
          */
         const sf::Texture &getPipe() const { return m_pipe; }
 
         /**
-         * @brief Lấy texture của background.
-         * @return Texture của background.
+         * @brief Get the background texture.
+         * @return Background texture.
          */
         const sf::Texture &getBackground() const { return m_background; }
 
         /**
-         * @brief Lấy texture của màn hình Game Over.
-         * @return Texture của Game Over.
+         * @brief Get the Game Over texture.
+         * @return Game Over texture.
          */
         const sf::Texture &getGameover() const { return m_gameover; }
 
     private:
-        std::array<sf::Texture, 3> m_bird; /**< Mảng 3 frame animation của chim */
-        sf::Texture m_pipe;                /**< Texture ống */
-        sf::Texture m_background;          /**< Texture background */
-        sf::Texture m_gameover;            /**< Texture màn hình Game Over */
+        std::array<sf::Texture, 3> m_bird; /**< Array of 3 bird animation frames */
+        sf::Texture m_pipe;                /**< Pipe texture */
+        sf::Texture m_background;          /**< Background texture */
+        sf::Texture m_gameover;            /**< Game Over texture */
     };
 }

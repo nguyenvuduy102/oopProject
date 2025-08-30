@@ -2,74 +2,93 @@
 
 namespace Flappy
 {
-    // Constructor, init pointers to null
+    /**
+     * @brief Default constructor. Initializes pointers to nullptr.
+     */
     FlappyGame::FlappyGame() : m_core(nullptr), m_renderer(nullptr) {}
 
-    // Setup game stuff
+    /**
+     * @brief Initialize the game by loading textures, creating the core, and setting up the renderer.
+     * @param window Reference to the SFML render window.
+     */
     void FlappyGame::init(sf::RenderWindow &window)
     {
-        m_textures.load();                         // Load textures
-        m_core = new GameCore(m_textures);         // Make game core
-        m_core->init(window.getSize());            // Init core with window size
-        m_renderer = new GameRenderer(m_textures); // Make renderer
-        m_renderer->load();                        // Load renderer stuff
+        m_textures.load();                          // Load all game textures
+        m_core = new GameCore(m_textures);          // Create game core
+        m_core->init(window.getSize());             // Initialize core with window size
+        m_renderer = new GameRenderer(m_textures);  // Create renderer
+        m_renderer->load();                         // Load renderer assets
     }
 
-    // Run game loop
+    /**
+     * @brief Main game loop. Handles input, updates game state, and renders frames.
+     * @param window Reference to the SFML render window.
+     */
     void FlappyGame::run(sf::RenderWindow &window)
     {
-        sf::Clock clock;                      // For timing
-        int frames = 0;                       // Track frames
-        GameState state = GameState::Waiting; // Start in waiting state
+        sf::Clock clock;                       // Clock to measure delta time
+        int frames = 0;                        // Frame counter
+        GameState state = GameState::Waiting;  // Start in "waiting" state
 
         // Main loop
         while (window.isOpen())
         {
-            GameState newState = state; // Track state changes
+            GameState newState = state;  // Temporary state tracker
 
-            // Handle events
+            // --- Handle events ---
             while (auto eventOpt = window.pollEvent())
             {
                 const sf::Event &event = *eventOpt;
-                if (event.is<sf::Event::Closed>()) // If window closed
+
+                // Handle window close event
+                if (event.is<sf::Event::Closed>())
                 {
-                    window.close(); // Shut it down
+                    window.close();
                     return;
                 }
-                if (auto key = event.getIf<sf::Event::KeyPressed>()) // If key pressed
+
+                // Handle key presses
+                if (auto key = event.getIf<sf::Event::KeyPressed>())
                 {
-                    if (key->code == sf::Keyboard::Key::Escape) // ESC to exit
+                    if (key->code == sf::Keyboard::Key::Escape)  // Exit game
                         return;
-                    if (key->code == sf::Keyboard::Key::C && state == GameState::Gameover) // C to restart
+
+                    if (key->code == sf::Keyboard::Key::C && state == GameState::Gameover)  // Restart after game over
                     {
-                        newState = GameState::Waiting;   // Back to waiting
-                        m_core->reset(window.getSize()); // Reset game
+                        newState = GameState::Waiting;
+                        m_core->reset(window.getSize());  // Reset game state
                     }
                 }
             }
 
-            // Handle input and update state
-            m_core->handleInput(state, newState);
+            // --- Game logic ---
+            m_core->handleInput(state, newState);  // Process input and possibly update state
 
-            // Get time since last frame
-            float delta = clock.restart().asSeconds();
+            float delta = clock.restart().asSeconds();  // Time since last frame
 
-            // Update game if started
-            if (state == GameState::Started)
+            if (state == GameState::Started)  // Only update logic if game is running
                 m_core->update(window.getSize(), delta, frames);
 
-            // Draw everything
-            m_renderer->render(window, m_core->bird(), m_core->pipes(), m_core->score(), state, frames);
+            // --- Rendering ---
+            m_renderer->render(window,
+                               m_core->bird(),
+                               m_core->pipes(),
+                               m_core->score(),
+                               state,
+                               frames);
 
-            state = newState; // Update state
-            frames++;         // Count frames
+            // Apply updated state and frame counter
+            state = newState;
+            frames++;
         }
     }
 
-    // Clean up game stuff
+    /**
+     * @brief Clean up allocated resources.
+     */
     void FlappyGame::cleanup()
     {
-        delete m_core;     // Free core
-        delete m_renderer; // Free renderer
+        delete m_core;
+        delete m_renderer;
     }
 }
