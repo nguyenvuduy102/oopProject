@@ -1,5 +1,9 @@
-// GameRenderer.h
-#pragma once // Stop multiple includes
+/**
+ * @file GameRenderer.h
+ * @brief Declares the GameRenderer class, responsible for rendering the entire Flappy Bird game.
+ */
+
+#pragma once // Prevent multiple includes
 #include <SFML/Graphics.hpp>
 #include "Bird.h"
 #include "Pipe.h"
@@ -9,15 +13,37 @@
 
 namespace Flappy
 {
-    // GameRenderer class, draw game stuff to window
+    /**
+     * @class GameRenderer
+     * @brief Responsible for rendering all game objects and UI in Flappy Bird.
+     *
+     * Main responsibilities:
+     * - Draw the bird (Bird), pipes (Pipe), score, and game-over screen.
+     * - Manage fonts, background, and textures.
+     */
     class GameRenderer
     {
     public:
-        // Constructor, take texture manager
+        /**
+         * @brief Constructor.
+         * @param tex Reference to TextureManager for texture management.
+         */
         GameRenderer(TextureManager &tex);
-        // Load fonts and textures
+
+        /**
+         * @brief Load fonts and textures required for rendering.
+         */
         void load();
-        // Draw bird, pipes, score, and gameover stuff
+
+        /**
+         * @brief Render the entire game frame onto the window.
+         * @param window The render window.
+         * @param bird The bird in the game.
+         * @param pipes List of pipes.
+         * @param score Current score.
+         * @param state Game state (waiting, running, or game over).
+         * @param frames Frame counter for animation.
+         */
         void render(sf::RenderWindow &window,
                     const Bird &bird,
                     const std::deque<Pipe> &pipes,
@@ -26,11 +52,11 @@ namespace Flappy
                     int frames);
 
     private:
-        TextureManager &m_textures;             // Texture manager ref
-        sf::Font m_font;                        // Font for score text
-        sf::Text m_scoreText;                   // Text for showing score
-        std::array<sf::Sprite, 6> m_background; // Array of background sprites
-        sf::Sprite m_gameover;                  // Game over image
-        sf::Text m_pressC;                      // Text for "press C" prompt
+        TextureManager &m_textures;             /**< Reference to TextureManager */
+        sf::Font m_font;                        /**< Font for displaying score */
+        sf::Text m_scoreText;                   /**< Text displaying the score */
+        std::array<sf::Sprite, 6> m_background; /**< Array of background sprites */
+        sf::Sprite m_gameover;                  /**< "Game Over" image */
+        sf::Text m_pressC;                      /**< Instruction text: "Press C" */
     };
 }

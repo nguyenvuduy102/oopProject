@@ -1,30 +1,72 @@
-#pragma once // Stop multiple includes
+/**
+ * @file TextureManager.h
+ * @brief Declares the TextureManager class, responsible for loading and managing textures for Flappy Bird.
+ */
+
+#pragma once // Prevent multiple includes
 #include <SFML/Graphics.hpp>
 #include <array>
 
 namespace Flappy
 {
-    // TextureManager class, load and store textures
+    /**
+     * @class TextureManager
+     * @brief Responsible for loading and storing all textures used in Flappy Bird.
+     *
+     * Includes:
+     * - Bird animation frames
+     * - Pipe texture
+     * - Background texture
+     * - Game Over texture
+     */
     class TextureManager
     {
     public:
-        // Constructor, set up texture stuff
+        /**
+         * @brief Default constructor. Initializes the TextureManager.
+         */
         TextureManager();
-        // Load all textures
+
+        /**
+         * @brief Load all required game textures.
+         *
+         * This function loads:
+         * - 3 bird animation frames
+         * - Pipe texture
+         * - Background texture
+         * - Game Over texture
+         */
         void load();
-        // Get bird texture for frame
+
+        /**
+         * @brief Get the bird texture for a given frame.
+         * @param frame Frame index (0-2).
+         * @return Texture for the given bird frame.
+         */
         const sf::Texture &getBird(int frame) const { return m_bird[frame]; }
-        // Get pipe texture
+
+        /**
+         * @brief Get the pipe texture.
+         * @return Pipe texture.
+         */
         const sf::Texture &getPipe() const { return m_pipe; }
-        // Get background texture
+
+        /**
+         * @brief Get the background texture.
+         * @return Background texture.
+         */
         const sf::Texture &getBackground() const { return m_background; }
-        // Get game over texture
+
+        /**
+         * @brief Get the Game Over texture.
+         * @return Game Over texture.
+         */
         const sf::Texture &getGameover() const { return m_gameover; }
 
     private:
-        std::array<sf::Texture, 3> m_bird; // Bird animation textures
-        sf::Texture m_pipe;                // Pipe texture
-        sf::Texture m_background;          // Background texture
-        sf::Texture m_gameover;            // Game over texture
+        std::array<sf::Texture, 3> m_bird; /**< Array of 3 bird animation frames */
+        sf::Texture m_pipe;                /**< Pipe texture */
+        sf::Texture m_background;          /**< Background texture */
+        sf::Texture m_gameover;            /**< Game Over texture */
     };
 }

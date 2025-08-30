@@ -1,34 +1,81 @@
-#pragma once // Stop multiple includes
+#pragma once // Prevent multiple includes
 #include <SFML/Graphics.hpp>
 #include "TextureManager.h"
 
+/**
+ * @file Bird.h
+ * @brief Declares the Bird class, which handles movement and animation of the bird in Flappy Bird.
+ */
+
 namespace Flappy
 {
-    // Bird class, handle bird movement and animation
+    /**
+     * @class Bird
+     * @brief Represents the bird entity (movement and animation).
+     *
+     * This class is responsible for:
+     * - Managing the bird's sprite
+     * - Updating its position with gravity and collisions
+     * - Handling flap animation
+     */
     class Bird
     {
     public:
-        // Constructor, set up bird with textures
+        /**
+         * @brief Constructor. Initializes the bird with a texture.
+         * @param tex Reference to the TextureManager used to retrieve the bird's texture.
+         */
         Bird(const TextureManager &tex);
-        // Reset bird position and state
+
+        /**
+         * @brief Reset the bird's position and state.
+         * @param windowSize Size of the game window.
+         */
         void reset(const sf::Vector2u &windowSize);
-        // Make bird jump with impulse
+
+        /**
+         * @brief Make the bird flap (jump) with an impulse force.
+         * @param impulse Velocity value applied when jumping.
+         */
         void flap(float impulse);
-        // Update bird position and animation
+
+        /**
+         * @brief Update the bird's state (movement and animation).
+         * @param gravity Gravity value applied to the bird.
+         * @param frames Number of frames for the flap animation cycle.
+         * @param animate Whether to enable animation.
+         * @param physics Whether to apply physics (gravity and velocity).
+         */
         void update(float gravity, int frames, bool animate, bool physics);
-        // Get bird sprite for rendering
+
+        /**
+         * @brief Get a modifiable reference to the bird's sprite.
+         * @return Reference to the bird's sprite.
+         */
         sf::Sprite &sprite() { return m_sprite; }
-        // Get bird sprite for reading
+
+        /**
+         * @brief Get a const reference to the bird's sprite (read-only).
+         * @return Const reference to the bird's sprite.
+         */
         const sf::Sprite &sprite() const { return m_sprite; }
-        // Get bird’s hitbox
+
+        /**
+         * @brief Get the hitbox (collision bounds) of the bird.
+         * @return FloatRect representing the bird's bounding box.
+         */
         sf::FloatRect getBounds() const { return m_sprite.getGlobalBounds(); }
-        // Get bird’s position
+
+        /**
+         * @brief Get the current position of the bird.
+         * @return Vector2f representing the bird's position in the window.
+         */
         sf::Vector2f getPosition() const { return m_sprite.getPosition(); }
 
     private:
-        const TextureManager &m_textures; // Texture manager ref
-        sf::Sprite m_sprite;              // Bird sprite
-        float m_velocity;                 // Bird’s vertical speed
-        int m_frame;                      // Current animation frame
+        const TextureManager &m_textures; /**< Reference to the TextureManager */
+        sf::Sprite m_sprite;              /**< Bird sprite */
+        float m_velocity;                 /**< Vertical velocity of the bird */
+        int m_frame;                      /**< Current animation frame */
     };
 }

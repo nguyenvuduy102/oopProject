@@ -1,29 +1,56 @@
-#pragma once // Stop multiple includes
+#pragma once // Prevent multiple includes
 #include <SFML/Audio.hpp>
 
 namespace Flappy
 {
-    // AudioManager class, handle sounds for Flappy Bird
+    /**
+     * @class AudioManager
+     * @brief Manages sound effects for the Flappy Bird game.
+     *
+     * This class is responsible for loading and playing the following sound effects:
+     * - Flap sound when the bird jumps
+     * - Score sound when the bird passes a pipe
+     * - Hit sound when the bird collides with an obstacle
+     */
     class AudioManager
     {
     public:
-        // Constructor, set up audio stuff
+        /**
+         * @brief Constructor.
+         *
+         * Initializes the AudioManager and prepares the sound objects.
+         */
         AudioManager();
-        // Load sound files
+
+        /**
+         * @brief Load all required sound files.
+         *
+         * Throws a runtime_error if a sound file fails to load.
+         */
         void load();
-        // Play flap sound when bird jump
+
+        /**
+         * @brief Play the flap sound when the bird jumps.
+         */
         void playFlap();
-        // Play score sound when pass pipe
+
+        /**
+         * @brief Play the score sound when the bird passes a pipe.
+         */
         void playScore();
-        // Play hit sound when crash
+
+        /**
+         * @brief Play the hit sound when the bird collides with an obstacle.
+         */
         void playHit();
 
     private:
-        sf::SoundBuffer m_flapBuffer;  // Buffer for flap sound
-        sf::SoundBuffer m_scoreBuffer; // Buffer for score sound
-        sf::SoundBuffer m_hitBuffer;   // Buffer for hit sound
-        sf::Sound m_flapSound;         // Flap sound effect
-        sf::Sound m_scoreSound;        // Score sound effect
-        sf::Sound m_hitSound;          // Hit sound effect
+        sf::SoundBuffer m_flapBuffer;   /**< Buffer for the flap sound */
+        sf::SoundBuffer m_scoreBuffer;  /**< Buffer for the score sound */
+        sf::SoundBuffer m_hitBuffer;    /**< Buffer for the hit sound */
+
+        sf::Sound m_flapSound;   /**< Flap sound effect */
+        sf::Sound m_scoreSound;  /**< Score sound effect */
+        sf::Sound m_hitSound;    /**< Hit sound effect */
     };
 }
