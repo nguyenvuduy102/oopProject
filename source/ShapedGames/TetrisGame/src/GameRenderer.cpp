@@ -81,15 +81,15 @@ namespace Tetris
 
         sf::Text text(font, "Next", 32);
         text.setFillColor(sf::Color::White);
-        text.setPosition({winSize.x / 2.f + 200.f, winSize.y / 2.f - 100.f});
+        text.setPosition({winSize.x / 2.f + 160.f, winSize.y / 2.f - 160.f});
         window.draw(text);
 
         for (auto &p : cells)
         {
             sf::RectangleShape cell({(float)CELL - 2, (float)CELL - 2});
             cell.setFillColor(GetCellColors()[block.id]);
-            cell.setPosition({winSize.x / 2.f + 200.f + (p.column - minC) * CELL,
-                              winSize.y / 2.f - 100.f + (p.row - minR) * CELL + 50.f});
+            cell.setPosition({winSize.x / 2.f + 140.f + (p.column - minC) * CELL,
+                              winSize.y / 2.f - 300.f + (p.row - minR) * CELL + 50.f});
             window.draw(cell);
         }
     }
@@ -109,18 +109,18 @@ namespace Tetris
         {
             sf::Text lbl(font, label, 32);
             lbl.setFillColor(sf::Color::White);
-            lbl.setPosition({winSize.x / 2.f - 200.f, y});
+            lbl.setPosition({winSize.x / 2.f + 150.f, y});
             window.draw(lbl);
 
             sf::Text v(font, std::to_string(val), 32);
             v.setFillColor(sf::Color::White);
-            v.setPosition({winSize.x / 2.f - 100.f, y});
+            v.setPosition({winSize.x / 2.f + 220.f, y});
             window.draw(v);
         };
 
-        drawVal("Score", core.GetScore(), 300.f);
-        drawVal("Line", core.GetLines(), 400.f);
-        drawVal("Level", core.GetLevel(), 500.f);
+        drawVal("Score", core.GetScore(), 495.f);
+        drawVal("Line", core.GetLines(), 600.f);
+        drawVal("Level", core.GetLevel(), 700.f);
 
         if (paused)
         {
