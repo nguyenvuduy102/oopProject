@@ -7,7 +7,6 @@ namespace Snake
         : m_controller(m_audio)
     {
     }
-
     void SnakeGame::init(sf::RenderWindow &window)
     {
         if (m_initialized)

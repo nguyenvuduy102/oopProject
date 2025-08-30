@@ -6,7 +6,7 @@ namespace Flappy
     GameCore::GameCore(TextureManager &tex)
         : m_textures(tex), m_bird(tex), m_rng(std::random_device{}()),
           m_score(0), m_gravity(0.35f), m_flapImpulse(-3.f),
-          m_pipeInterval(2.5f), m_pipeGap(120.f), m_pipeSpeed(3.f), m_spawnTimer(0.f) {}
+          m_pipeInterval(2.5f), m_pipeGap(150.f), m_pipeSpeed(3.f), m_spawnTimer(0.f) {}
 
     // Init game with window size
     void GameCore::init(const sf::Vector2u &windowSize)

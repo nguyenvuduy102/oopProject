@@ -3,6 +3,34 @@
 
 namespace Snake
 {
+    sf::VertexArray GameController::DrawGrid(int size, sf::Color c) const
+    {
+        sf::VertexArray line(sf::PrimitiveType::Lines);
+        for (int i = 0; i <= 1920; i += size)
+        {
+            sf::Vertex v1;
+            v1.color = c;
+            v1.position = sf::Vector2f({float(i), 0});
+            line.append(v1);
+            sf::Vertex v2;
+            v2.color = c;
+            v2.position = sf::Vector2f({float(i), 1080});
+            line.append(v2);
+        }
+        for (int j = 0; j <= 1080; j += size)
+        {
+            sf::Vertex v1;
+            v1.color = c;
+            v1.position = sf::Vector2f(0, float(j));
+            line.append(v1);
+
+            sf::Vertex v2;
+            v2.color = c;
+            v2.position = sf::Vector2f(1920, float(j));
+            line.append(v2);
+        }
+        return line;
+    }
     GameController::GameController(AudioManager &audio) : m_audio(audio)
     {
         init();
@@ -33,9 +61,9 @@ namespace Snake
     {
         m_mode = Mode::TwoPlayers;
         sf::Vector2f head1 = {float((WINDOW_W / 2 / CELL) * CELL), float((WINDOW_H / 2 / CELL) * CELL)};
-        sf::Vector2f head2 = {float((WINDOW_W / 2 / CELL) * CELL), float(((WINDOW_H / 2 - 3 * CELL) / CELL) * CELL)};
+        sf::Vector2f head2 = {float((WINDOW_W / 2 / CELL) * CELL), float(((WINDOW_H * 2 / 3) / CELL) * CELL)};
         m_p1.init(head1, sf::Color::Green, sf::Vector2f(float(CELL), 0.f));
-        m_p2.init(head2, sf::Color::Blue, sf::Vector2f(float(-CELL), 0.f));
+        m_p2.init(head2, sf::Color::Blue, sf::Vector2f(float(CELL), 0.f));
         m_score1 = m_score2 = 0;
         m_clock.restart();
         m_food.spawn(WINDOW_W, WINDOW_H);

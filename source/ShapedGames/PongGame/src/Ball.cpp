@@ -17,7 +17,7 @@ namespace Pong
         std::mt19937 gen(std::random_device{}());
         std::uniform_real_distribution<float> dy(3.5f, 5.0f);
         float vy = dy(gen);
-        m_velocity = {direction > 0 ? 5.5f : -5.5f, (gen() % 2 == 0) ? vy : -vy};
+        m_velocity = {direction > 0 ? 15.f : -15.f, (gen() % 2 == 0) ? vy : -vy};
     }
 
     void Ball::update()

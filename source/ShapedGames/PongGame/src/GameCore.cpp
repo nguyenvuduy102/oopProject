@@ -3,9 +3,9 @@
 namespace Pong
 {
     GameCore::GameCore()
-        : m_left({12.f, 90.f}, {20.f, 200.f}, 6.5f),
-          m_right({12.f, 90.f}, {760.f, 200.f}, 6.5f),
-          m_ball(10.f),
+        : m_left({40.f, 180.f}, {20.f, 460.f}, 6.5f),
+          m_right({40.f, 180.f}, {1920.f- 20*2.f, 460.f}, 6.5f),
+          m_ball(30.f),
           m_leftScore(0),
           m_rightScore(0)
     {

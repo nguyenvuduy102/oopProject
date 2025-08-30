@@ -3,9 +3,9 @@
 
 namespace Snake
 {
-    constexpr unsigned WINDOW_W = 800;
-    constexpr unsigned WINDOW_H = 600;
-    constexpr unsigned CELL = 40;
+    constexpr unsigned WINDOW_W = 1920;
+    constexpr unsigned WINDOW_H = 1080;
+    constexpr unsigned CELL = 60;
 
     class Food
     {

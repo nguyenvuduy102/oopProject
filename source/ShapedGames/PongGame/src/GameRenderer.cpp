@@ -2,7 +2,7 @@
 
 namespace Pong
 {
-    GameRenderer::GameRenderer() : m_scoreText(m_font, "", 28) {}
+    GameRenderer::GameRenderer() : m_scoreText(m_font, "", 58) {}
 
     void GameRenderer::load()
     {
@@ -24,7 +24,7 @@ namespace Pong
         window.draw(ball.shape());
 
         m_scoreText.setString(std::to_string(leftScore) + " : " + std::to_string(rightScore));
-        m_scoreText.setPosition({window.getSize().x / 2.f - 40.f, 20.f});
+        m_scoreText.setPosition({window.getSize().x / 2.f - 50.f, 20.f});
         window.draw(m_scoreText);
 
         window.display();
