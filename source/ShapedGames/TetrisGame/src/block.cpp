@@ -5,11 +5,20 @@ namespace Tetris
 {
     static constexpr int CELL = 28;
 
+    /**
+     * @brief Constructs a Block with default values.
+     */
     Block::Block()
         : id(0), rotationState(0), rowOffset(0), columnOffset(0)
     {
     }
 
+    /**
+     * @brief Draws the block on the render window with specified offsets.
+     * @param window The SFML render window.
+     * @param offsetX Horizontal offset for drawing.
+     * @param offsetY Vertical offset for drawing.
+     */
     void Block::Draw(sf::RenderWindow &window, int offsetX, int offsetY) const
     {
         auto colors = GetCellColors();
@@ -35,12 +44,21 @@ namespace Tetris
         }
     }
 
+    /**
+     * @brief Moves the block by the specified number of rows and columns.
+     * @param rows Number of rows to move (positive down, negative up).
+     * @param columns Number of columns to move (positive right, negative left).
+     */
     void Block::Move(int rows, int columns)
     {
         rowOffset += rows;
         columnOffset += columns;
     }
 
+    /**
+     * @brief Gets the positions of the block's cells after applying offsets.
+     * @return A vector of Position objects representing the cells.
+     */
     std::vector<Position> Block::GetCellPositions() const
     {
         std::vector<Position> tiles = cells.at(rotationState);
@@ -56,6 +74,9 @@ namespace Tetris
         return movedTiles;
     }
 
+    /**
+     * @brief Rotates the block to the next rotation state.
+     */
     void Block::Rotate()
     {
         rotationState++;
@@ -65,6 +86,9 @@ namespace Tetris
         }
     }
 
+    /**
+     * @brief Undoes the last rotation of the block.
+     */
     void Block::UndoRotation()
     {
         rotationState--;
@@ -74,6 +98,10 @@ namespace Tetris
         }
     }
 
+    /**
+     * @brief Gets the raw positions of the block's cells without offsets.
+     * @return A vector of Position objects representing the raw cells.
+     */
     std::vector<Position> Block::GetRawCellPositions() const
     {
         return cells.at(rotationState);
