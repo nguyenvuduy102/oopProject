@@ -8,6 +8,7 @@ namespace Tetris
         numRows = 20;
         numCols = 12;
         cellSize = 28;
+
         Initialize();
         colors = GetCellColors();
     }
@@ -15,8 +16,12 @@ namespace Tetris
     void Grid::Initialize()
     {
         for (int r = 0; r < numRows; ++r)
+        {
             for (int c = 0; c < numCols; ++c)
+            {
                 grid[r][c] = 0;
+            }
+        }
     }
 
     void Grid::Draw(sf::RenderWindow &window)
@@ -33,11 +38,20 @@ namespace Tetris
                     continue;
 
                 sf::RectangleShape cell({(float)cellSize - 1, (float)cellSize - 1});
-                cell.setPosition({(float)(LEFT_OFFSET + c * cellSize + 108.f),
-                                  (float)(TOP_OFFSET + r * cellSize + 30.f)});
+                sf::Vector2u winSize = window.getSize();
+
+                float boardWidth = numCols * cellSize;
+                float boardHeight = numRows * cellSize;
+                float startX = (winSize.x - boardWidth) / 2.f;
+                float startY = (winSize.y - boardHeight) / 2.f;
+
+                cell.setPosition({startX + LEFT_OFFSET + c * cellSize - 125.f,
+                                  startY + TOP_OFFSET + r * cellSize + 10.f});
+
                 cell.setFillColor(colors[id]);
                 cell.setOutlineThickness(1.f);
                 cell.setOutlineColor(sf::Color::Black);
+
                 window.draw(cell);
             }
         }
@@ -47,11 +61,16 @@ namespace Tetris
     {
         return !(row >= 0 && row < numRows && col >= 0 && col < numCols);
     }
-    bool Grid::IsCellEmpty(int row, int col) { return grid[row][col] == 0; }
+
+    bool Grid::IsCellEmpty(int row, int col)
+    {
+        return grid[row][col] == 0;
+    }
 
     int Grid::ClearFullRows()
     {
         int completed = 0;
+
         for (int r = numRows - 1; r >= 0; --r)
         {
             if (IsRowFull(r))
@@ -64,20 +83,28 @@ namespace Tetris
                 MoveRowDown(r, completed);
             }
         }
+
         return completed;
     }
+
     bool Grid::IsRowFull(int row)
     {
         for (int c = 0; c < numCols; ++c)
+        {
             if (grid[row][c] == 0)
                 return false;
+        }
         return true;
     }
+
     void Grid::ClearRow(int row)
     {
         for (int c = 0; c < numCols; ++c)
+        {
             grid[row][c] = 0;
+        }
     }
+
     void Grid::MoveRowDown(int row, int n)
     {
         for (int c = 0; c < numCols; ++c)
